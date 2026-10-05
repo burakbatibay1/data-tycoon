@@ -10,8 +10,16 @@ PEOPLE.buse = { name: "Buse Yılmaz", role: "Yeni stajyer", skin: "#F0C8A2", hai
 QUEST_BY_ID.sq_inbox.hot = "phone";
 HOTSPOTS.phone = { label: "Telefon", icon: "mail", ambient: ["Telefonunda yeni bir talep yok."] };
 HOTSPOTS.window = { label: "Pencere", icon: "board", box: [62.5, 37.5, 10.8, 8.2], ambient: [
-  "Galata Kulesi sabah sisinin içinden yavaşça beliriyor.", "Boğaz'dan bir vapur geçiyor. Bir an veriyi unutuyorsun.",
-  "Martılar pencerenin önünde bir dağılım grafiği çiziyor. Aykırı değer de var.", "Gün batımı şehri turuncuya boyamış. İyi bir gün olmuş."] };
+  "Şehir yeni yeni uyanıyor. Boğaz'dan sabah vapuru geçiyor; İstanbul yavaş yavaş hareketleniyor.",
+  "Boğaz'dan bir vapur geçiyor. Martılar peşinde; bir an veriyi unutuyorsun.",
+  "Martılar pencerenin önünde bir dağılım grafiği çiziyor. Aykırı değer de var.",
+  "Gün batımı şehri turuncuya boyamış. Ofiste tempo azalırken Boğaz hâlâ hareketli.",
+  "Bugün İstanbul yağmurlu. Camdaki damlaların arkasından vapurun ışıkları görünüyor.",
+  "Şehir ışıklarla parlıyor. Boğaz sakin; ofiste birkaç ekran hâlâ açık.",
+  "Boğaz bugün sisli. Karşı kıyı güçlükle seçiliyor; şehir pusun içinde.",
+  "Bugün rüzgarlı. Vapur dalgalarla yarışıyor, martılar peşinde.",
+  "İstanbul'da bugün kar var. Boğaz beyaza bürünmüş; sıcak kahve iyi gider."
+] };
 HOTSPOTS.lounge.eveningFriday = "Cuma akşamı. Dinlenme alanında artık kimse p-değerlerini tartışmıyor. Veri köpeği Veri bile mesaiyi bırakmış.";
 
 const WEEKDAYS = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Pazartesi"];

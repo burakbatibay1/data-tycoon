@@ -27,7 +27,10 @@ function onHot(key) {
   }
   if (key === "window") {
     player.windowViews++; if (player.windowViews >= 4) unlockAch("window"); save(true);
-    const H = HOTSPOTS.window; return openStory(null, "Pencere", H.ambient[(player.day + (player.dayPhase === "after" ? 3 : 0)) % H.ambient.length]);
+    const H = HOTSPOTS.window, idx=(player.day + (player.dayPhase === "after" ? 3 : 0)) % H.ambient.length;
+    const phase = player.dayPhase === "after" ? "Akşam" : player.dayPhase === "before" ? "Sabah" : "Gün içi";
+    const clock = player.dayPhase === "after" ? "18:42" : player.dayPhase === "before" ? "08:47" : "12:36";
+    return openWindowView(H.ambient[idx], phase, clock);
   }
   if (key === "lounge" && player.day === 5 && player.dayPhase === "after" && !QUESTS.some(q => q.hot === "lounge" && questState(q) === "available")) return openStory(null, "Dinlenme Alanı", HOTSPOTS.lounge.eveningFriday);
   if (key === "desk") { const c = activeCase(); if (c) return go("case", c.id); const pc = prepCase(); if (pc) return openQuest(pc.requires.find(q => !player.sideDone.includes(q))); return go("cases"); }

@@ -64,6 +64,26 @@ function openStory(who, title, text, actions = []) {
     <div class="modal-actions">${actions.map(a => `<button class="${a.primary ? "primary-button" : "ghost-button"}" ${a.attrs}>${a.label}</button>`).join("")}
     ${actions.length ? "" : `<button class="primary-button" data-action="close-modal">Devam</button>`}</div>`, "story");
 }
+function windowSceneFor(text, phase) {
+  const t = String(text || "").toLocaleLowerCase("tr-TR");
+  if (t.includes("kar ") || t.includes("kar var") || t.includes("beyaza")) return ["window-snow.webp", "Karlı İstanbul"];
+  if (t.includes("yağmur")) return ["window-rain.webp", "Yağmurlu Boğaz"];
+  if (t.includes("sis")) return ["window-fog.webp", "Sisli Boğaz"];
+  if (t.includes("rüzgar") || t.includes("dalga")) return ["window-windy-ferry.webp", "Rüzgarlı Boğaz"];
+  if (t.includes("martı")) return ["window-midday-seagulls.webp", "Martılar ve Boğaz"];
+  if (t.includes("vapur")) return phase === "Sabah" ? ["window-sunrise-ferry.webp", "Sabah vapuru"] : ["window-windy-ferry.webp", "Boğaz vapuru"];
+  if (t.includes("gün bat") || phase === "Akşam") return player.day % 3 === 0 ? ["window-night.webp", "Gece İstanbul"] : ["window-sunset.webp", "Gün batımı"];
+  if (phase === "Gün içi") return ["window-midday-seagulls.webp", "Gün ortası"];
+  return ["window-sunrise-ferry.webp", "Sabah İstanbul"];
+}
+function openWindowView(text, phase, clock) {
+  const [scene, sceneAlt] = windowSceneFor(text, phase);
+  openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button>
+    <div class="window-view-head"><span class="window-view-icon">◉</span><div><h3>Pencereden Bak</h3><span>Nexora Ofis · İstanbul</span></div></div>
+    <div class="window-view-photo"><img src="${scene}" alt="${sceneAlt} — Nexora ofis penceresinden İstanbul"></div>
+    <div class="window-view-caption"><div class="window-view-time"><span>${weekday(player.day)}, ${player.day}. gün · ${phase}</span><strong>${clock}</strong></div><p>${text}</p></div>
+    <div class="modal-actions"><button class="primary-button" data-action="close-modal">Ofise dön</button></div>`, "window-view-modal");
+}
 function openQuest(id) { renderModalDef(id, true); }
 function renderModalDef(id, opening) {
   const def = defOf(id), pr = prog(id);
@@ -83,15 +103,9 @@ function openSlack() {
   const threads = SLACK.filter(t => t.day <= player.day).slice().reverse();
   const dms = QUESTS.filter(q => q.hot === "phone" && questState(q) === "available");
   const ev = player.pendingEvent && EVENT_BY_ID[player.pendingEvent];
-  openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button>
-    <div class="slack"><div class="slack-head"><span class="slack-logo">#</span><div><h3>Nexora Slack</h3><span class="muted small">${weekday(player.day)}, ${player.day}. gün</span></div></div>
-    ${dms.length || ev ? `<div class="slack-sec"><span>Sana gelenler</span>
-      ${ev ? `<button class="slack-dm urgent" data-action="open-event" data-id="${ev.id}">${avatar(ev.who, 32)}<div><b>${PEOPLE[ev.who].name}</b><p>${ev.notify}</p></div><em>Yanıtla</em></button>` : ""}
-      ${dms.map(q => `<button class="slack-dm" data-action="open-quest" data-id="${q.id}">${avatar(q.who, 32)}<div><b>${PEOPLE[q.who].name}</b><p>${q.title}</p></div><em>Aç</em></button>`).join("")}</div>` : ""}
-    ${threads.map(t => `<div class="slack-sec"><span>${t.ch} <i>${t.day === player.day ? "bugün" : `${t.day}. gün`}</i></span>
-      ${t.msgs.map(([w, m]) => `<div class="slack-msg">${avatar(w, 30)}<div><b>${PEOPLE[w].name.split(" ")[0]}</b><p>${m}</p></div></div>`).join("")}
-      ${t.event && player.pendingEvent === t.event ? `<button class="ghost-button small" data-action="open-event" data-id="${t.event}">Konuşmaya katıl</button>` : ""}</div>`).join("")}
-    </div>`, "slack-modal");
+  openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button><div class="slack"><div class="slack-head"><span class="slack-logo">#</span><div><h3>Nexora Slack</h3><span class="muted small">${weekday(player.day)}, ${player.day}. gün</span></div></div>
+    ${dms.length || ev ? `<div class="slack-sec"><span>Sana gelenler</span>${ev ? `<button class="slack-dm urgent" data-action="open-event" data-id="${ev.id}">${avatar(ev.who,32)}<div><b>${PEOPLE[ev.who].name}</b><p>${ev.notify}</p></div><em>Yanıtla</em></button>`:""}${dms.map(q=>`<button class="slack-dm" data-action="open-quest" data-id="${q.id}">${avatar(q.who,32)}<div><b>${PEOPLE[q.who].name}</b><p>${q.title}</p></div><em>Aç</em></button>`).join("")}</div>`:""}
+    ${threads.map(t=>`<div class="slack-sec"><span>${t.ch} <i>${t.day===player.day?"bugün":`${t.day}. gün`}</i></span>${t.msgs.map(([w,m])=>`<div class="slack-msg">${avatar(w,30)}<div><b>${PEOPLE[w].name.split(" ")[0]}</b><p>${m}</p></div></div>`).join("")}${t.event&&player.pendingEvent===t.event?`<button class="ghost-button small" data-action="open-event" data-id="${t.event}">Konuşmaya katıl</button>`:""}</div>`).join("")}</div>`, "slack-modal");
 }
 
 /* =====================================================================
