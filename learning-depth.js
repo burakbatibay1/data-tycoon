@@ -1,5 +1,5 @@
 /* DATA TYCOON v3.6 — Learning Depth
-   Ch4–8: iki seçenekli kararları en az 3 seçeneğe çıkarır.
+   Ch4–8: tüm kararları en az 4 güçlü seçeneğe çıkarır.
    Yeni seçenekler dolgu değil; analistlerin gerçek hayatta düşebileceği teknik/iş tuzaklarıdır.
    Ayrıca karar sonrası pedagojik gerekçe ve yanlış karar sonucu için metadata ekler. */
 (function(){
@@ -73,9 +73,15 @@
   CASES.filter(d => (d.chapter||1) >= 4 && (d.chapter||1) <= 8).forEach(def => {
     def.steps.forEach((st,si)=>{
       if(st.type!=="choice" || !Array.isArray(st.options)) return;
-      if(st.options.length===2){
-        const label=manual[`${def.id}:${si}`] || autoTrap(st,def);
+      let trapNo=0;
+      while(st.options.length < 4){
+        const manualLabel = trapNo===0 ? manual[`${def.id}:${si}`] : null;
+        let label = manualLabel || autoTrap(st,def);
+        if(st.options.some(o=>o.label===label)) label = trapNo%2===0
+          ? "Önce en güçlü görünen teknik sinyale göre aksiyon alır, sonucu daha sonra iş metriğiyle doğrularım"
+          : "Kararı hızlandırmak için mevcut ortalama metriği yeterli kabul eder, segment ve operasyon kısıtlarını sonraki iterasyona bırakırım";
         st.options.push({label, fb:"Bu seçenek ilk bakışta savunulabilir; ancak kritik bir varsayımı doğrulamadan karar veriyor.", consequence:consequence(def,st,label)});
+        trapNo++;
       }
       st.options.forEach(o=>{ if(!o.correct && !o.consequence) o.consequence=consequence(def,st,o.label); });
       if(!st.learningLens && def.chapter>=3){

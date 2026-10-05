@@ -115,6 +115,7 @@ document.addEventListener("click", e => {
     case "skip-morning": { const d = MORNING_DEFS[`morning${player.day}`], pr = prog(d.id); dialogToken++;
       while (pr.step < d.steps.length && d.steps[pr.step].type === "dialog") pr.step++;
       if (pr.step >= d.steps.length) completeMorning(d); else { save(true); render(); } break; }
+    case "reason-answer": reasonAnswer(def, +el.dataset.opt, el); break;
     case "pick": pickAnswer(def, el.dataset.key, el); break;
     case "builder-run": builderRun(def, el); break;
     case "vis-step": { const d = stepDefFrom(el); if (d) { const pr = prog(d.id); pr.data[el.dataset.key] = (pr.data[el.dataset.key] || 0) + 1; save(true); rerender(d, "both"); } break; }
@@ -129,6 +130,7 @@ document.addEventListener("click", e => {
     case "reply": replyAnswer(def, +el.dataset.opt); break;
     case "answer": answer(def, +el.dataset.opt, el); break;
     case "next-step": nextStep(def); break;
+    case "encounter-next-line": encounterNextLine(def); break;
     case "think": toggleThink(def); break;
     case "hint": revealHint(def); break;
     case "solve": revealSolve(def); break;

@@ -127,6 +127,8 @@ function hairShapes(P, cx, cy, s) {
 }
 let _avId = 0;
 function avatar(id, size = 44, preset) {
+  const photoPeople = {maya:"maya",buse:"buse",deniz:"deniz",alex:"alex",zeynep:"zeynep",ceo:"ceo"};
+  if (!preset && photoPeople[id]) return `<img class="avatar photo-avatar" src="assets/characters/${photoPeople[id]}.jpg" width="${size}" height="${size}" alt="" loading="eager" decoding="async">`;
   const P = preset || personOf(id), uid = `av${++_avId}`;
   return `<svg class="avatar" width="${size}" height="${size}" viewBox="0 0 48 48" aria-hidden="true">
     <defs><clipPath id="${uid}"><circle cx="24" cy="24" r="24"/></clipPath></defs>
@@ -217,4 +219,39 @@ function officeStage(opts = {}) {
       </div>
       ${spots}
     </div></div></div>`;
+}
+
+/* =====================================================================
+   v6.0 LIVING OFFICE — ortak sinematik sahne üreticisi
+   Tek bir ağır storyboard yerine mevcut hafif karakter assetleri + ofis
+   arka planı kullanır. Böylece tüm kariyerde tutarlı ve hızlıdır.
+   ===================================================================== */
+const DT_HUMANS = new Set(["maya","buse","deniz","alex","zeynep","ceo","burak"]);
+function isHumanSpeaker(id){ return !!id && DT_HUMANS.has(id); }
+function sceneMood(def){
+  const s = `${def?.id||""} ${def?.title||""} ${def?.hot||""}`.toLocaleLowerCase("tr-TR");
+  if (/kahve|coffee|espresso/.test(s)) return {key:"coffee",label:"Kahve alanı",icon:"☕"};
+  if (/öğle|lunch/.test(s)) return {key:"lunch",label:"Öğle arası",icon:"◷"};
+  if (/incident|alarm|production|prod/.test(s)) return {key:"incident",label:"Production alanı",icon:"!"};
+  if (/board|kurul|ceo|strateji/.test(s)) return {key:"board",label:"Yönetim katı",icon:"◆"};
+  if (/whiteboard|tahta/.test(s)) return {key:"whiteboard",label:"Beyaz tahta",icon:"✎"};
+  if (/review|pr|mentor/.test(s)) return {key:"review",label:"Kod review",icon:"⌘"};
+  if (/koridor|asansör/.test(s)) return {key:"corridor",label:"Koridor",icon:"→"};
+  if (/toplantı|meeting/.test(s)) return {key:"meeting",label:"Toplantı odası",icon:"◎"};
+  return {key:"office",label:"Nexora ofisi",icon:"●"};
+}
+function encounterSceneHTML(who, def, compact=false){
+  if(!isHumanSpeaker(who)) return "";
+  const P=personOf(who), mood=sceneMood(def);
+  // v6.7: encounter görseli artık ofis fotoğrafından crop üretmiyor.
+  // Her ana karakter için oyuncuyla aynı kadrajda, konuşma bağlamına uygun
+  // iki kişilik sinematik asset kullanılıyor. Burak için güvenli ofis fallback'i var.
+  const paired = ["maya","buse","deniz","alex","zeynep","ceo"].includes(who);
+  const scene = paired ? `assets/encounters/${who}-conversation.webp` : OFFICE_IMAGE;
+  return `<div class="living-scene paired-scene mood-${mood.key} ${compact?"compact":""}" data-living-scene>
+    <img class="paired-scene-photo" src="${scene}" alt="${P.name} ile ${mood.label} konuşması" loading="eager" decoding="async">
+    <div class="paired-scene-shade"></div>
+    <div class="living-place"><i>${mood.icon}</i><span>${mood.label}</span></div>
+    <div class="living-id"><strong>${P.name}</strong><span>${P.role||"Nexora Analytics"}</span></div>
+  </div>`;
 }

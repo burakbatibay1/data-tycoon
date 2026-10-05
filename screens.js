@@ -56,8 +56,10 @@ function closeModal() {
   if (["office", "quests"].includes(player.screen)) render();
 }
 function openStory(who, title, text, actions = []) {
+  const storyDef = {id:`story_${String(title).toLocaleLowerCase("tr-TR").replace(/[^a-z0-9çğıöşü]+/g,"_")}`,title};
+  const living = isHumanSpeaker(who) ? encounterSceneHTML(who, storyDef, true) : "";
   openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button>
-    ${who ? speakerLine(who) : `<span class="eyebrow">Ofis anı</span>`}
+    ${living || (who ? speakerLine(who) : `<span class="eyebrow">Ofis anı</span>`)}
     <h3>${title}</h3><div class="story-text">${text}</div>
     <div class="modal-actions">${actions.map(a => `<button class="${a.primary ? "primary-button" : "ghost-button"}" ${a.attrs}>${a.label}</button>`).join("")}
     ${actions.length ? "" : `<button class="primary-button" data-action="close-modal">Devam</button>`}</div>`, "story");
@@ -96,7 +98,7 @@ function openSlack() {
    EKRANLAR
    ===================================================================== */
 const NAV_OF = { tree: "tree", notebook: "notebook", preview: "career", pvdone: "career", office: "office", inbox: "office", quests: "cases", settings: "settings", cases: "cases", case: "cases", debrief: "cases", skills: "skills", career: "career", portfolio: "portfolio", promotion: "career", dayend: "office", chapter: "career" };
-const CINEMA = ["morning", "leave", "finale"];
+const CINEMA = ["morning", "leave", "finale", "inbox"];
 const PRE_START = ["welcome", "profile", "firstday"];
 function go(screen, param = null) {
   player.screen = screen; player.param = param; save(); render();
@@ -140,6 +142,7 @@ function render() {
   if (s === "morning") { afterStepRender(MORNING_DEFS[`morning${player.day}`], true); runMorningScene(); }
   if (s === "finale") { afterStepRender(FINALE, true); runMorningScene(); }
   if (s === "preview") { renderCaseStepper(PREVIEW_BY_ID[player.param]); afterStepRender(PREVIEW_BY_ID[player.param], true); }
+  if (s === "inbox") setupFirstdayCinematic();
   if (s === "tree") setupTree();
   if (s === "notebook" && nbFocus) setTimeout(() => { document.getElementById("nb-" + nbFocus)?.scrollIntoView({ block: "center", behavior: smooth() }); }, 80);
   if (s === "leave") runLeave();
@@ -219,16 +222,31 @@ function viewFirstDay() {
     </div></div>`;
 }
 function viewInbox() {
-  return `<div class="inbox-screen">
-    <span class="eyebrow">İlk gün, 09:04</span><h2>Bir mesajın var, ${playerName()}.</h2>
-    <article class="letter">
-      ${speakerLine("maya")}
-      <p class="bubble shown">Günaydın! Nexora'ya hoş geldin, ekipte olduğun için çok mutluyuz.</p>
-      <p class="bubble shown" style="--i:1">Bakmamız gereken küçük bir konu var. Geçen ay satışlar düştü ve yönetim düşüşün nereden geldiğini anlamak istiyor.</p>
-      <p class="bubble shown" style="--i:2">Merak etme, ilk incelemende sana adım adım eşlik edeceğim. Her soruda <b>Nasıl düşünmeliyim?</b>, <b>İpucu</b> ve gerekirse <b>Birlikte çöz</b> seçeneklerin olacak. Boş bir anında ofiste de dolaş; buradaki insanların bir veri insanına hep soruları olur.</p>
-      <button class="primary-button" data-action="open-case" data-id="case001">Vaka 001'i aç</button>
-    </article></div>`;
+  return `<div class="firstday-cinematic-v54">
+    <section class="firstday-film instant" aria-label="Maya ile ilk karşılaşma">
+      <img class="fd-shot fd-single" src="assets/scenes/firstday-clean-3.webp" alt="Maya Nexora Analytics ofisinde masanın yanında" fetchpriority="high" decoding="async">
+      <div class="fd-film-grain" aria-hidden="true"></div>
+      <div class="fd-dialogue instant-dialogue">
+        <div class="fd-speaker"><img src="assets/characters/maya-cinematic.webp" alt="Maya"><div><strong>Maya</strong><span>Analytics Manager</span></div></div>
+        <div class="fd-lines">
+          <p>Günaydın ${playerName()}! Nexora'ya hoş geldin.</p>
+          <p>İlk gününde seni doğrudan dashboard'un önüne bırakmayacağım. Önce problemi nasıl düşüneceğimizi birlikte görelim.</p>
+          <p class="fd-last">İlk vakalarda yanındayım; ilerledikçe ipuçları azalacak ve kararların zorlaşacak.</p>
+        </div>
+        <button class="primary-button fd-start" data-action="open-case" data-id="case001">Vaka 001 · Satış Gizemi <span>→</span></button>
+      </div>
+    </section>
+  </div>`;
 }
+
+function setupFirstdayCinematic() {
+  const film = document.querySelector(".firstday-film");
+  if (!film) return;
+  const img = film.querySelector(".fd-single");
+  if (img) img.addEventListener("error", () => { img.src = OFFICE_IMAGE; }, { once:true });
+  requestAnimationFrame(() => film.classList.add("is-playing"));
+}
+
 function viewOffice() {
   const c = activeCase(), promo = promoCase(), qs = openQuests();
   const tomorrow = CASES.find(x => caseState(x) === "tomorrow");
@@ -462,9 +480,11 @@ function sceneHTML(kind, m) {
 }
 function viewMorning() {
   const def = MORNING_DEFS[`morning${player.day}`], m = def;
-  return `<div class="morning">
+  const todayCase = CASES.find(c => c.day === player.day) || CASES.find(c => caseState(c)==="available");
+  return `<div class="morning morning-v61">
     <div class="scene-wrap">${sceneHTML(m.scene, m)}
       <div class="scene-caption"><span class="eyebrow">${m.time}, ${weekday(player.day)}, ${player.day}. gün</span><h2>${m.title}</h2><p>${m.text}</p></div>
+      <div class="morning-focus"><span>Bugünün odağı</span><strong>${todayCase ? todayCase.title : "Nexora'da yeni bir gün"}</strong><small>${todayCase?.concept ? todayCase.concept : "Mesajlarını kontrol et, ekiple konuş ve günün kararına hazırlan."}</small></div>
       <button class="skip-btn" data-action="skip-morning">Sahneyi atla ›</button></div>
     <div class="morning-body" data-step-body>${stepHTML(def)}</div></div>`;
 }
@@ -483,9 +503,9 @@ function viewDayEnd() {
   const t = player.today, c = t.caseId && CASE_BY_ID[t.caseId], ev = EVENINGS[player.day], chosen = player.evening[player.day];
   const skills = Object.entries(t.skills).filter(([, v]) => v > 0);
   const qsAvail = QUESTS.filter(q => questState(q) !== "locked").length;
-  return `<div class="dayend">
-    <div class="de-clock">18:12, Nexora Analytics</div>
-    <div class="stamp big">${player.day}. gün tamamlandı</div>
+  return `<div class="dayend dayend-v61">
+    <div class="dayend-hero" style="--img:url('${OFFICE_IMAGE}')"><div><span>${weekday(player.day)} · 18:12</span><h2>${player.day}. gün tamamlandı</h2><p>Ofis yavaşlıyor. Bugünün kararlarını kapatıp yarına ne taşıdığını gör.</p></div></div>
+    <div class="de-clock">Nexora Analytics · Gün sonu özeti</div>
     <div class="de-grid">
       <section class="card de-report"><span class="eyebrow">Bugün</span>
         ${c ? `<div class="de-case"><span>Çözülen vaka</span><strong>${c.title}</strong></div>` : ""}

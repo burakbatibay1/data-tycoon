@@ -4,7 +4,7 @@
    ===================================================================== */
 function freshToday() { return { xp: 0, skills: {}, quests: 0, events: 0, decisions: 0, firstTry: 0, caseId: null }; }
 function freshPlayer() {
-  return { version: 28, xp: 0, profile: { name: "", avatar: "a1", animations: true }, career: ROLES[0].title, started: false,
+  return { version: 40, xp: 0, profile: { name: "", avatar: "a1", animations: true }, career: ROLES[0].title, started: false,
     screen: "welcome", param: null, skills: Object.fromEntries(Object.keys(SKILLS).map(k => [k, 0])),
     completed: [], sideDone: [], firstTry: [], progress: {}, day: 1, dayPhase: "work", feed: [], inbox: [], promoted: false,
     lastDebrief: null, unread: 0, checkpointAt: null, stats: { hints: 0, solves: 0, independent: 0 }, promoReadyNotified: false,
@@ -27,9 +27,11 @@ function normalizePlayer(s) {
   if (!AVATARS.some(a => a.id === out.profile.avatar)) out.profile.avatar = "a1";
   if (!["morning", "work", "after"].includes(out.dayPhase)) out.dayPhase = "work";
   if (s.version && s.version < 21) { out.day = Math.max(1, out.completed.length + 1); out.dayPhase = "work"; }
-  if (!s.version || s.version < 28) {
+  if (!s.version || s.version < 40) {
+    // v4 changes advanced decisions to Decision → Why → Consequence.
+    // Keep completed work, but restart only unfinished Ch4+ cases so old step state cannot bypass reasoning.
     Object.keys(out.progress || {}).forEach(id => { const c = CASE_BY_ID[id]; if (c && (c.chapter || 1) >= 4 && !out.completed.includes(id)) delete out.progress[id]; });
-    out.version = 28;
+    out.version = 40;
   }
   if (out.pendingEvent && !EVENT_BY_ID[out.pendingEvent]) out.pendingEvent = null;
   out.chapter = out.chapter || 1;
@@ -181,16 +183,50 @@ function stepHTML(def) {
 }
 function dialogHTML(def, pr, st) {
   const last = pr.step === def.steps.length - 1, lines = typeof st.lines === "function" ? st.lines() : st.lines;
-  return `<div class="dialog-step" data-dialog>
-    ${speakerLine(st.who)}
-    <div class="bubbles" data-action="dialog-skip">${lines.map((l, i) => `<p class="bubble" style="--i:${i}">${l}</p>`).join("")}<p class="typing" aria-hidden="true"><i></i><i></i><i></i></p></div>
-    <div class="step-actions"><button class="primary-button" data-action="next-step" data-def="${def.id}">${last ? FINISH_LABEL[def.kind] : st.cta || "Devam"}</button></div></div>`;
+  // Human office encounters use a click-paced conversation: one line at a time.
+  // No timer can hide text or block progression. Normal case briefings remain instant.
+  const cinematic = isHumanSpeaker(st.who) && (def.kind === "event" || def.kind === "quest" || /^ev40_/.test(def.id));
+  const hero = cinematic ? encounterSceneHTML(st.who, def, false) : "";
+  const key = `dialogLine_${pr.step}`;
+  const lineIndex = cinematic ? Math.min(pr.data[key] || 0, Math.max(0, lines.length - 1)) : lines.length - 1;
+  const person = isHumanSpeaker(st.who) ? personOf(st.who) : null;
+  const visibleLines = cinematic ? [lines[lineIndex]] : lines;
+  const hasMore = cinematic && lineIndex < lines.length - 1;
+  const action = hasMore ? "encounter-next-line" : "next-step";
+  const label = hasMore ? "Devam" : (last ? FINISH_LABEL[def.kind] : st.cta || "Devam");
+  return `<div class="dialog-step ${cinematic ? "cinematic-encounter living-encounter paced-encounter" : ""}" data-dialog data-line="${lineIndex}">
+    ${hero}${cinematic ? "" : speakerLine(st.who)}
+    <div class="bubbles ${cinematic && isHumanSpeaker(st.who)?"conversation-bubbles":""}">
+      ${cinematic && person ? `<div class="conversation-speaker"><span>${person.name}</span><small>${person.role||"Nexora Analytics"}</small></div>` : ""}
+      ${visibleLines.map(l => `<div class="conversation-line ready"><p class="bubble shown">${l}</p></div>`).join("")}
+      ${cinematic ? `<div class="conversation-progress" aria-label="Konuşma ilerlemesi">${lines.map((_,i)=>`<i class="${i<=lineIndex?'on':''}"></i>`).join('')}</div>` : ""}
+    </div>
+    <div class="step-actions"><button class="primary-button encounter-cta" data-action="${action}" data-def="${def.id}">${label}${hasMore?' <span aria-hidden="true">→</span>':''}</button></div></div>`;
 }
+function encounterNextLine(def) {
+  const pr = prog(def.id), st = curStep(def);
+  if (!st || st.type !== "dialog") return;
+  const lines = typeof st.lines === "function" ? st.lines() : st.lines;
+  const key = `dialogLine_${pr.step}`;
+  const cur = pr.data[key] || 0;
+  if (cur < lines.length - 1) {
+    pr.data[key] = cur + 1;
+    save(true);
+    // Dialogue steps do not contain data-panel/data-stage. Re-render the
+    // complete step so a single click immediately paints the next line.
+    rerender(def, "all");
+  } else nextStep(def);
+}
+
 function stageHTML(def) {
   const pr = prog(def.id), st = curStep(def);
-  if (st.type === "choice") return st.visual ? st.visual(pr.data, def.id) : "";
+  const encounterWho = st.who || def.who;
+  const encounterDef = (def.kind === "event" || def.kind === "quest" || /^ev40_/.test(def.id));
+  // v6.7: insan encounter'larında diyalogdan karar/reply adımına geçince sahne
+  // kaybolmaz; konuşan iki kişinin sinematik görseli bütün encounter boyunca kalır.
+  if (st.type === "choice") return st.visual ? st.visual(pr.data, def.id) : (encounterDef && isHumanSpeaker(encounterWho) ? encounterSceneHTML(encounterWho, def, false) : "");
   if (st.type === "pick" || st.type === "builder") return st.visual(pr.data, def.id);
-  if (st.type === "reply") return "";
+  if (st.type === "reply") return encounterDef && isHumanSpeaker(encounterWho) ? encounterSceneHTML(encounterWho, def, false) : "";
   if (st.type === "toggles") return st.visual(pr.data);
   if (st.type === "tagger") {
     const d = pr.data, tags = d.tags || {}, active = d.active || st.tags[1][0];
@@ -233,6 +269,11 @@ function panelHTML(def) {
   const done = pr.solved ? `${st.learningLens && (def.chapter || 1) >= 3 ? `<div class="takeaway learning-lens">${icon("bulb")}<div><span>Neden bu karar?</span><p>${st.learningLens}</p></div></div>` : ""}${st.takeaway ? `<div class="takeaway">${icon("check")}<div><span>Akılda kalsın</span><p>${st.takeaway}</p></div></div>` : ""}${nextButton(def, pr)}` : "";
   if (st.type === "choice") {
     const ci = st.options.findIndex(o => o.correct);
+    if (pr.data.reasonPending && Array.isArray(st.reasonOptions)) {
+      return `${head}<div class="reason-gate"><span class="eyebrow">Kararını savun</span><p>Kararın doğru yönde. Peki <b>neden</b>?</p>
+        <div class="options reason-options">${st.reasonOptions.map((o,i)=>`<button class="option ${pr.data.reasonWrong?.includes(i)?"wrong":""}" data-action="reason-answer" data-def="${def.id}" data-opt="${i}" ${pr.data.reasonWrong?.includes(i)?"disabled":""}><span class="opt-key">${"ABC"[i]}</span><span class="opt-text">${o.label}</span></button>`).join("")}</div>
+        ${feedbackHTML(pr)}</div>`;
+    }
     if (st.explore && !exploreDone(st, pr.data)) return `${head}${guideHTML(def, pr, st)}
       <div class="explore-list"><span>${icon("compass")}Karar vermeden önce keşfet</span>${st.explore.map(e => { const k = typeof e === "string" ? e : e.key, ok = typeof e === "string" ? pr.data[k] : (pr.data[k] || 0) >= e.min;
         const lbl = { mean: "Ortalamayı hesapla", median: "Medyanı hesapla", byDevice: "Veriyi cihaza göre kır", n: `En az ${e.min} kez yeniden örnekle (${pr.data.n || 0}/${e.min})` }[k] || k;
@@ -326,23 +367,16 @@ function applyHighlights(def) {
 /* ---- diyalog: yazıyor... busektiyle sırayla göster ---- */
 let dialogToken = 0;
 function playDialog(el) {
-  const token = ++dialogToken, bubbles = [...el.querySelectorAll(".bubble")], typing = el.querySelector(".typing");
-  const actions = el.querySelector(".step-actions");
-  if (!animOn()) { bubbles.forEach(b => b.classList.add("shown")); typing.remove(); return; }
-  actions.classList.add("waiting");
-  let i = 0;
-  const nextBubble = () => {
-    if (token !== dialogToken) return;
-    if (i >= bubbles.length) { typing.remove(); actions.classList.remove("waiting"); return; }
-    el.querySelector(".bubbles").insertBefore(typing, bubbles[i]);
-    typing.classList.add("on");
-    setTimeout(() => {
-      if (token !== dialogToken) return;
-      typing.classList.remove("on"); bubbles[i].classList.add("shown"); i++;
-      setTimeout(nextBubble, 260);
-    }, 520 + Math.min(700, bubbles[i].textContent.length * 4));
-  };
-  nextBubble();
+  // v6.4 stability: dialogue content is never hidden behind timers.
+  // Motion is decorative only; readability and controls are immediate.
+  dialogToken++;
+  el.querySelectorAll(".bubble").forEach(b => b.classList.add("shown"));
+  el.querySelectorAll(".conversation-line").forEach(line => line.classList.add("ready"));
+  el.querySelector(".typing")?.remove();
+  el.querySelector(".step-actions")?.classList.remove("waiting");
+  if (el.classList.contains("cinematic-encounter") && animOn()) {
+    el.querySelector("[data-living-scene]")?.classList.add("scene-entered");
+  }
 }
 function skipDialog(el) {
   dialogToken++;
@@ -364,8 +398,14 @@ function answer(def, i, btn) {
   const pr = prog(def.id), st = curStep(def), o = st.options[i];
   if (pr.solved || pr.wrong.includes(i)) return;
   if (o.correct) {
-    pr.solved = true; pr.fb = { ok: true, text: o.fb }; markSolved(def, pr);
-    if (btn) burst(btn, pr.wrong.length || pr.hint || pr.solve ? "Doğru!" : "Kusursuz!");
+    if (Array.isArray(st.reasonOptions) && !pr.data.reasonDone) {
+      pr.data.reasonPending = true; pr.data.reasonWrong = pr.data.reasonWrong || [];
+      pr.fb = { ok: true, title: "Karar doğru", text: "Şimdi bu kararı hangi gerekçeyle savunduğunu göster." };
+      if (btn) burst(btn, "Karar doğru!");
+    } else {
+      pr.solved = true; pr.fb = { ok: true, text: o.fb }; markSolved(def, pr);
+      if (btn) burst(btn, pr.wrong.length || pr.hint || pr.solve ? "Doğru!" : "Kusursuz!");
+    }
   } else {
     pr.wrong.push(i); pr.mistakes++;
     let extra = "";
@@ -378,6 +418,22 @@ function answer(def, i, btn) {
   save(true);
   setTimeout(() => { rerender(def, "panel"); focusIn("[data-panel] .feedback"); }, btn && !o.correct && animOn() ? 320 : 0);
 }
+function reasonAnswer(def, i, btn) {
+  const pr=prog(def.id), st=curStep(def), o=st.reasonOptions && st.reasonOptions[i];
+  if(!o || !pr.data.reasonPending) return;
+  pr.data.reasonWrong = pr.data.reasonWrong || [];
+  if(o.correct){
+    pr.data.reasonPending=false; pr.data.reasonDone=true; pr.solved=true;
+    pr.fb={ok:true,title:"Karar + gerekçe",text:st.learningLens || "Doğru kararı doğru gerekçeyle savundun."};
+    markSolved(def,pr); if(btn) burst(btn, pr.data.reasonWrong.length ? "Gerekçe tamam!" : "Güçlü muhakeme!");
+  } else {
+    if(!pr.data.reasonWrong.includes(i)) pr.data.reasonWrong.push(i);
+    pr.mistakes++; pr.fb={ok:false,text:"Bu gerekçe ilk bakışta makul; ancak kararın temel varsayımını veya iş etkisini açıklamıyor."};
+    if(btn) btn.classList.add("shake");
+  }
+  save(true); setTimeout(()=>{rerender(def,"panel");focusIn("[data-panel] .feedback")}, o.correct?0:260);
+}
+
 function nextStep(def) {
   const pr = prog(def.id), st = curStep(def);
   if (st.type !== "dialog" && !pr.solved) return;

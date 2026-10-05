@@ -1036,3 +1036,210 @@ tr.pick-sugg td { background: rgba(160, 139, 255, .16) !important; }
   .morning { padding: 14px 12px 100px; }
   .notify-card { flex-wrap: wrap; }
 }
+/* === v4.0 immersion === */
+.first-meet{max-width:1180px;margin:0 auto;padding:22px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(340px,.8fr);gap:22px;align-items:stretch}.first-meet-scene{position:relative;min-height:560px;border-radius:24px;overflow:hidden;background:linear-gradient(180deg,rgba(7,14,28,.05),rgba(7,14,28,.8)),var(--img) center/cover;box-shadow:0 22px 70px rgba(0,0,0,.28)}.maya-walk{position:absolute;left:-120px;bottom:112px;filter:drop-shadow(0 14px 20px rgba(0,0,0,.35));animation:mayaArrives 2.1s cubic-bezier(.2,.8,.2,1) forwards}.maya-walk .avatar{animation:humanBob .55s ease-in-out 3}.first-meet-desk{position:absolute;left:9%;right:9%;bottom:44px;height:72px;border-radius:12px;background:linear-gradient(180deg,#26344a,#111a29);box-shadow:0 14px 30px rgba(0,0,0,.38);display:flex;align-items:center;justify-content:flex-end;padding:0 26px;letter-spacing:.16em;font-size:11px;color:rgba(255,255,255,.55)}.first-meet-desk i{position:absolute;left:22%;top:-48px;width:90px;height:54px;border-radius:7px;background:#0a1020;border:4px solid #26344a}.first-meet-caption{position:absolute;left:28px;right:28px;top:28px;padding:18px 20px;border:1px solid rgba(255,255,255,.14);background:rgba(7,14,28,.68);backdrop-filter:blur(12px);border-radius:16px}.first-meet-caption h2{margin:5px 0 6px}.first-meet-caption p{margin:0;color:var(--muted)}.first-meet-dialog{align-self:center}.reason-gate{animation:panelIn .28s ease}.reason-gate>p{font-size:1.03rem;line-height:1.6}.reason-options .option{border-left-width:3px}@keyframes mayaArrives{0%{left:-120px;opacity:0;transform:scale(.92)}55%{opacity:1}100%{left:38%;transform:translateX(-50%) scale(1)}}@keyframes humanBob{50%{transform:translateY(-5px) rotate(-1deg)}}
+@media(max-width:820px){.first-meet{grid-template-columns:1fr;padding:12px}.first-meet-scene{min-height:390px}.maya-walk{bottom:82px}.first-meet-dialog{margin-top:-28px;position:relative;z-index:2}}
+@media(prefers-reduced-motion:reduce){.maya-walk,.maya-walk .avatar{animation:none;left:38%;transform:translateX(-50%)}}
+
+/* === v4.1 cinematic cast system === */
+.maya-office-scene{background-position:center;isolation:isolate}.maya-office-scene:before{content:"";position:absolute;inset:0;background:var(--img) center/cover no-repeat;z-index:-3;animation:officeCameraToMaya 2.8s cubic-bezier(.2,.72,.2,1) forwards;transform-origin:18% 58%}.maya-focus{position:absolute;left:9.5%;top:31%;width:16%;height:39%;border-radius:46% 46% 30% 30%;box-shadow:0 0 0 1px rgba(255,255,255,.06);opacity:0;animation:mayaPresence 2.5s .45s ease forwards}.scene-vignette{position:absolute;inset:0;background:radial-gradient(circle at 18% 57%,transparent 0 15%,rgba(5,10,20,.12) 30%,rgba(5,10,20,.62) 100%);opacity:0;animation:vignetteIn 2.3s .55s ease forwards}.walk-cue{position:absolute;left:8%;bottom:8%;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(7,14,28,.78);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);opacity:0;transform:translateY(10px);animation:cueIn .5s 2.1s ease forwards}.walk-cue span{width:9px;height:9px;border-radius:50%;background:#55e6b8;box-shadow:0 0 18px #55e6b8}.walk-cue b{font-size:12px;letter-spacing:.03em}.cinematic-dialog{overflow:hidden}.character-strip{display:flex;align-items:center;gap:14px;margin:-4px -4px 18px;padding:10px;border-radius:16px;background:linear-gradient(90deg,rgba(93,126,255,.12),transparent)}.character-strip img{width:72px;height:72px;border-radius:15px;object-fit:cover;object-position:center 30%;border:1px solid rgba(255,255,255,.13)}.character-strip h3{margin:2px 0 0;font-size:1.2rem}.cinematic-encounter{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(300px,1fr);gap:20px;align-items:stretch}.encounter-hero{grid-row:1 / span 2;position:relative;min-height:410px;border-radius:20px;overflow:hidden;background:#101a2b}.encounter-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;transform:scale(1.07);animation:encounterCamera 6s ease-out forwards}.encounter-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(4,9,18,.9) 100%)}.encounter-id{position:absolute;left:20px;right:20px;bottom:20px;display:flex;flex-direction:column}.encounter-id span{color:#63e6be;font-size:11px;text-transform:uppercase;letter-spacing:.12em}.encounter-id strong{font-size:1.55rem;margin-top:3px}.encounter-id small{color:var(--muted);margin-top:3px}.cinematic-encounter .bubbles{align-self:end}.cinematic-encounter .step-actions{grid-column:2}.cinematic-encounter .bubble{background:rgba(18,29,48,.9);border:1px solid rgba(255,255,255,.09);box-shadow:0 14px 30px rgba(0,0,0,.18)}
+@keyframes officeCameraToMaya{0%{transform:scale(1);filter:brightness(.92)}100%{transform:scale(1.32);filter:brightness(.72)}}
+@keyframes mayaPresence{0%{opacity:0;transform:translateX(-10px) scale(.96)}100%{opacity:1;transform:translateX(0) scale(1);box-shadow:0 0 50px rgba(95,230,190,.08)}}
+@keyframes vignetteIn{to{opacity:1}}@keyframes cueIn{to{opacity:1;transform:none}}@keyframes encounterCamera{from{transform:scale(1.07)}to{transform:scale(1.01)}}
+@media(max-width:820px){.cinematic-encounter{grid-template-columns:1fr}.encounter-hero{grid-row:auto;min-height:280px}.cinematic-encounter .step-actions{grid-column:1}.maya-office-scene:before{transform-origin:18% 60%}.character-strip img{width:60px;height:60px}}
+@media(prefers-reduced-motion:reduce){.maya-office-scene:before,.maya-focus,.scene-vignette,.walk-cue,.encounter-hero img{animation:none!important}.maya-office-scene:before{transform:scale(1.18);filter:brightness(.75)}.scene-vignette,.walk-cue{opacity:1}}
+
+/* DATA TYCOON v4.2 — visible character movement */
+.live-character-stage{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}
+.live-character{position:absolute;bottom:-3%;left:11%;width:min(38%,330px);height:78%;object-fit:cover;object-position:center 18%;filter:drop-shadow(0 24px 34px rgba(0,0,0,.38));-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 7%,#000 78%,transparent 100%),linear-gradient(to right,transparent 0%,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-image:radial-gradient(ellipse 48% 55% at 50% 44%,#000 58%,transparent 92%);opacity:0;transform:translate(-28%,8%) scale(.55);transform-origin:50% 100%;animation:mayaWalkToDesk 3.2s cubic-bezier(.18,.78,.18,1) .35s forwards}
+.live-character-shadow{position:absolute;left:17%;bottom:3%;width:24%;height:7%;border-radius:50%;background:rgba(0,0,0,.34);filter:blur(16px);opacity:0;animation:characterShadow 3.2s .35s forwards}
+.maya-office-scene .first-meet-caption{z-index:6;animation:captionAfterWalk .65s 2.65s both}
+.maya-office-scene .walk-cue{z-index:6;animation:cueIn .45s .45s ease forwards, cueOut .45s 2.45s ease forwards}
+.cinematic-dialog{opacity:0;transform:translateX(26px);animation:dialogArrive .7s 3s cubic-bezier(.2,.75,.2,1) forwards}
+.cinematic-encounter .encounter-hero{animation:personEnter .75s cubic-bezier(.2,.75,.2,1) both}
+.cinematic-encounter .encounter-id{animation:dialogArrive .55s .35s both}
+@keyframes mayaWalkToDesk{0%{opacity:0;transform:translate(-42%,8%) scale(.46)}12%{opacity:.92}38%{transform:translate(-16%,5%) scale(.62)}68%{transform:translate(9%,2%) scale(.82)}100%{opacity:1;transform:translate(28%,0) scale(1.02)}}
+@keyframes characterShadow{0%{opacity:0;transform:translateX(-35%) scale(.5)}30%{opacity:.15}100%{opacity:.45;transform:translateX(42%) scale(1.1)}}
+@keyframes captionAfterWalk{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes cueOut{to{opacity:0;transform:translateY(8px)}}
+@keyframes dialogArrive{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes personEnter{from{opacity:0;transform:translateX(-24px) scale(.97)}to{opacity:1;transform:none}}
+@media(max-width:820px){.live-character{left:3%;width:58%;height:70%;animation-name:mayaWalkToDeskMobile}.cinematic-dialog{animation-delay:2.7s}@keyframes mayaWalkToDeskMobile{0%{opacity:0;transform:translate(-35%,8%) scale(.48)}15%{opacity:.9}100%{opacity:1;transform:translate(35%,0) scale(.9)}}}
+@media(prefers-reduced-motion:reduce){.live-character,.live-character-shadow,.cinematic-dialog,.cinematic-encounter .encounter-hero,.cinematic-encounter .encounter-id,.maya-office-scene .first-meet-caption{animation:none!important;opacity:1!important;transform:none!important}}
+
+/* === v5.0 cinematic sequence — real scene progression, no fake cut-out walking === */
+.firstday-sequence{max-width:1240px;grid-template-columns:minmax(0,1.28fr) minmax(350px,.72fr);gap:24px}
+.cinematic-sequence{position:relative;min-height:610px;background:#09111f;overflow:hidden;isolation:isolate}
+.cine-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);filter:brightness(.82) saturate(.96);will-change:opacity,transform}
+.cine-frame.f1{animation:scene1 8.8s both}.cine-frame.f2{animation:scene2 8.8s both}.cine-frame.f3{animation:scene3 8.8s both}.cine-frame.f4{animation:scene4 8.8s both}
+.cinematic-sequence:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,17,.02) 45%,rgba(3,8,17,.68) 100%);z-index:2;pointer-events:none}
+.sequence-status{position:absolute;left:24px;right:24px;bottom:28px;z-index:4;padding:15px 17px;border-radius:15px;background:rgba(7,14,28,.72);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);display:flex;flex-direction:column;gap:4px}.sequence-status b{font-size:14px}.sequence-progress{position:absolute;left:24px;right:24px;bottom:14px;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.sequence-progress i{height:3px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}.sequence-progress i:after{content:"";display:block;height:100%;background:var(--mint);transform-origin:left;animation:seqBar 8.8s linear both}.sequence-progress i:nth-child(2):after{animation-delay:2.2s}.sequence-progress i:nth-child(3):after{animation-delay:4.4s}.sequence-progress i:nth-child(4):after{animation-delay:6.6s}
+.firstday-sequence .cinematic-dialog{opacity:0;transform:translateX(24px);animation:dialogArrive .65s 7.2s cubic-bezier(.2,.75,.2,1) forwards}.firstday-sequence .character-strip img{object-position:center 22%}
+.cinematic-encounter .encounter-hero img{object-position:center center;filter:saturate(.95)}
+@keyframes scene1{0%,2%{opacity:1;transform:scale(1.05)}22%{opacity:1;transform:scale(1)}27%,100%{opacity:0}}
+@keyframes scene2{0%,22%{opacity:0}27%{opacity:1;transform:scale(1.05)}47%{opacity:1;transform:scale(1)}52%,100%{opacity:0}}
+@keyframes scene3{0%,47%{opacity:0}52%{opacity:1;transform:scale(1.05)}72%{opacity:1;transform:scale(1)}77%,100%{opacity:0}}
+@keyframes scene4{0%,72%{opacity:0}77%{opacity:1;transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+@keyframes seqBar{0%{transform:scaleX(0)}25%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+@media(max-width:820px){.firstday-sequence{grid-template-columns:1fr}.cinematic-sequence{min-height:430px}.firstday-sequence .cinematic-dialog{margin-top:-18px;z-index:8}}
+@media(prefers-reduced-motion:reduce){.cine-frame{display:none;animation:none!important}.cine-frame.f4{display:block;opacity:1;transform:none}.firstday-sequence .cinematic-dialog{animation:none!important;opacity:1;transform:none}.sequence-progress{display:none}}
+
+/* === v5.1 clean cinematic onboarding === */
+body[data-screen="inbox"].cinema .topbar{background:rgba(5,10,20,.72);backdrop-filter:blur(14px);border-bottom-color:rgba(255,255,255,.06)}
+body[data-screen="inbox"] .workspace{padding:0;overflow:hidden;background:#050b16}
+body[data-screen="inbox"] .screen{padding:0;min-height:calc(100vh - 78px)}
+.firstday-cinematic-v51{width:100%;min-height:calc(100vh - 78px);display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#14233b 0,#07101e 48%,#050a13 100%);padding:22px}
+.firstday-film{position:relative;width:min(1380px,100%);height:min(78vh,790px);min-height:600px;border-radius:28px;overflow:hidden;background:#07101c;box-shadow:0 40px 100px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);isolation:isolate}
+.fd-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.075);filter:saturate(.96) contrast(1.02) brightness(.88);will-change:opacity,transform}
+.fd-shot.shot1{opacity:1;transform:scale(1.09)}.firstday-film.is-playing .fd-shot.shot1{animation:fdShot1 10.5s ease-in-out both}.firstday-film.is-playing .fd-shot.shot2{animation:fdShot2 10.5s ease-in-out both}.firstday-film.is-playing .fd-shot.shot3{animation:fdShot3 10.5s ease-in-out both}
+.firstday-film:after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(3,8,16,.02) 42%,rgba(3,8,16,.18) 62%,rgba(3,8,16,.82) 100%);pointer-events:none}
+.fd-film-grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.12;background-image:radial-gradient(rgba(255,255,255,.2) .45px,transparent .6px);background-size:4px 4px;mix-blend-mode:soft-light}
+.fd-dialogue{position:absolute;z-index:5;left:clamp(18px,4vw,58px);right:clamp(18px,4vw,58px);bottom:clamp(18px,4vh,42px);display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:end;padding:18px 20px;border-radius:22px;background:rgba(7,15,29,.76);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px) saturate(1.15);box-shadow:0 18px 55px rgba(0,0,0,.34);opacity:0;transform:translateY(22px);animation:none}.firstday-film.is-playing .fd-dialogue{animation:fdDialogueIn .65s 7.7s cubic-bezier(.2,.75,.2,1) forwards}
+.fd-speaker{display:flex;align-items:center;gap:12px;align-self:center}.fd-speaker img{width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:center 22%;border:2px solid rgba(94,230,190,.65)}.fd-speaker div{display:flex;flex-direction:column;min-width:130px}.fd-speaker strong{font-size:16px}.fd-speaker span{font-size:11px;color:var(--mint);margin-top:3px}
+.fd-lines{min-width:0}.fd-lines p{margin:0;color:#f5f7fb;font-size:clamp(14px,1.25vw,18px);line-height:1.5}.fd-lines p:not(:first-child){display:none}.fd-start{white-space:nowrap;align-self:center}.fd-start span{margin-left:8px}
+.fd-progress{position:absolute;z-index:6;left:clamp(18px,4vw,58px);right:clamp(18px,4vw,58px);bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.fd-progress i{height:3px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}.fd-progress i:after{content:"";display:block;height:100%;background:var(--mint);transform-origin:left;transform:scaleX(0)}.firstday-film.is-playing .fd-progress i:after{animation:fdBar 10.5s linear both}.fd-progress i:nth-child(2):after{animation-delay:3.5s}.fd-progress i:nth-child(3):after{animation-delay:7s}
+@keyframes fdShot1{0%{opacity:1;transform:scale(1.09)}28%{opacity:1;transform:scale(1.02)}34%,100%{opacity:0}}
+@keyframes fdShot2{0%,29%{opacity:0}35%{opacity:1;transform:scale(1.07)}61%{opacity:1;transform:scale(1.015)}67%,100%{opacity:0}}
+@keyframes fdShot3{0%,62%{opacity:0}68%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes fdDialogueIn{to{opacity:1;transform:none}}
+@keyframes fdBar{0%{transform:scaleX(0)}33.333%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+@media(max-width:760px){.firstday-cinematic-v51{padding:0}.firstday-film{height:calc(100vh - 70px);min-height:560px;border-radius:0;border:0}.fd-dialogue{grid-template-columns:1fr;gap:12px;align-items:start}.fd-speaker img{width:46px;height:46px}.fd-speaker div{min-width:0}.fd-start{width:100%}.fd-shot{object-position:center center}}
+@media(prefers-reduced-motion:reduce){.fd-shot{animation:none!important;display:none}.fd-shot.shot3{display:block;opacity:1;transform:none}.fd-dialogue{animation:none!important;opacity:1;transform:none}.fd-progress{display:none}}
+.fd-lines{display:flex;flex-direction:column;gap:5px}.fd-lines p:not(:first-child){display:block;color:rgba(245,247,251,.76);font-size:clamp(12px,1.05vw,15px)}.fd-lines .fd-last{color:rgba(245,247,251,.58)}
+
+/* === v5.2 reliable cinematic loading + unified cast === */
+.fd-loader{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 35%,#13233b,#07101d 58%,#050a13);transition:opacity .4s ease,visibility .4s ease}.fd-loader.done{opacity:0;visibility:hidden;pointer-events:none}.fd-loader-mark{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:var(--mint);color:#07101d;font-weight:800;font-size:25px;box-shadow:0 0 30px rgba(94,224,181,.2)}.fd-loader div:last-child{display:flex;flex-direction:column}.fd-loader strong{font-size:16px}.fd-loader span{margin-top:4px;color:var(--muted);font-size:12px}.photo-avatar{object-fit:cover;object-position:center 24%;border-radius:50%;background:#17233a}.mentor-note .photo-avatar,.speaker .photo-avatar,.mini-msg .photo-avatar,.slack-msg .photo-avatar,.slack-dm .photo-avatar,.rel .photo-avatar{border:1px solid rgba(255,255,255,.12)}
+\n/* === v5.4 instant cinematic: v5.2 visual quality, one lightweight local scene === */
+.firstday-cinematic-v54{width:100%;min-height:calc(100vh - 78px);display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#14233b 0,#07101e 48%,#050a13 100%);padding:22px}
+.firstday-film.instant{position:relative;width:min(1380px,100%);height:min(78vh,790px);min-height:600px;border-radius:28px;overflow:hidden;background:#07101c;box-shadow:0 40px 100px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);isolation:isolate}
+.firstday-film.instant .fd-single{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;opacity:1!important;transform:scale(1.025);filter:saturate(.96) contrast(1.02) brightness(.88);animation:fdSingleCamera 8s ease-out both!important}
+.firstday-film.instant:after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(3,8,16,.02) 42%,rgba(3,8,16,.18) 62%,rgba(3,8,16,.82) 100%);pointer-events:none}
+.firstday-film.instant .instant-dialogue{opacity:1!important;transform:none!important;animation:fdDialogueQuick .42s .12s both!important}
+.firstday-film.instant .fd-progress,.firstday-film.instant .fd-loader{display:none!important}
+@keyframes fdSingleCamera{from{transform:scale(1.035)}to{transform:scale(1)}}
+@keyframes fdDialogueQuick{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:760px){.firstday-cinematic-v54{padding:0}.firstday-film.instant{height:calc(100vh - 70px);min-height:560px;border-radius:0;border:0}.firstday-film.instant .instant-dialogue{grid-template-columns:1fr;gap:12px;align-items:start}.firstday-film.instant .fd-start{width:100%}}
+@media(prefers-reduced-motion:reduce){.firstday-film.instant .fd-single,.firstday-film.instant .instant-dialogue{animation:none!important;transform:none!important;opacity:1!important}}
+
+/* =====================================================================
+   v6.0 — Living Office: kariyer boyunca ortak insan/sahne dili
+   ===================================================================== */
+.living-scene{position:relative;min-height:430px;border-radius:22px;overflow:hidden;background:#0b1424;isolation:isolate;border:1px solid rgba(255,255,255,.09);box-shadow:0 22px 54px rgba(0,0,0,.25)}
+.living-office-bg{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,10,18,.08),rgba(5,10,18,.48)),var(--office) center/cover no-repeat;transform:scale(1.04);animation:livingCamera 8s ease-out both;z-index:-4}
+.living-light{position:absolute;inset:0;background:radial-gradient(circle at 68% 28%,rgba(255,190,105,.2),transparent 30%),linear-gradient(90deg,rgba(4,10,20,.18),rgba(4,10,20,.02) 45%,rgba(4,10,20,.34));z-index:-3}
+.living-person{position:absolute;right:5%;top:7%;width:56%;height:82%;border-radius:24px;overflow:hidden;box-shadow:0 26px 60px rgba(0,0,0,.35);transform:translateX(28px) scale(.98);opacity:0;animation:personWalkIn .85s .12s cubic-bezier(.18,.78,.22,1) forwards}
+.living-person img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:saturate(.98) contrast(1.03)}
+.living-person:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(5,11,22,.55))}
+.living-you{position:absolute;left:6%;bottom:12%;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:999px;background:rgba(7,15,29,.76);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);animation:youArrive .55s .35s both}
+.living-you .avatar{display:block}.living-you small{font-weight:700;color:#dce5f5}.living-place{position:absolute;left:6%;top:7%;display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:999px;background:rgba(7,15,29,.72);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);font-size:12px;font-weight:700}.living-place i{font-style:normal;color:var(--mint)}
+.living-id{position:absolute;right:8%;bottom:12%;display:flex;flex-direction:column;align-items:flex-end;text-shadow:0 2px 14px #000}.living-id strong{font-size:1.3rem}.living-id span{font-size:12px;color:#cbd6e8}
+.living-scene.mood-coffee:before{content:"☕";position:absolute;left:7%;top:23%;font-size:54px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.3));animation:coffeeSteam 2.4s ease-in-out infinite;z-index:2}.living-scene.mood-incident{box-shadow:inset 0 0 0 1px rgba(255,120,105,.18),0 22px 54px rgba(0,0,0,.25)}.living-scene.mood-board .living-light{background:linear-gradient(180deg,rgba(8,12,22,.05),rgba(8,12,22,.55))}.living-scene.mood-whiteboard .living-office-bg{background-position:72% center}
+.living-encounter{grid-template-columns:minmax(280px,.88fr) minmax(320px,1fr)}.living-encounter>.living-scene{grid-row:1 / span 2}.living-encounter .bubbles{align-self:end}.living-encounter .step-actions{grid-column:2}
+.compact-encounter{display:grid;grid-template-columns:minmax(230px,.62fr) minmax(320px,1fr);gap:18px;align-items:stretch}.compact-encounter>.living-scene{min-height:280px}.compact-encounter .bubbles{align-self:center}.compact-encounter .step-actions{grid-column:2}.living-scene.compact .living-person{width:60%;right:3%;top:6%;height:86%}.living-scene.compact .living-id{display:none}.living-scene.compact .living-you{left:5%;bottom:8%;transform:scale(.9);transform-origin:left bottom}.living-scene.compact .living-place{left:5%;top:7%}
+@keyframes livingCamera{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.1) translate3d(-1.2%,0,0)}}
+@keyframes personWalkIn{to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes youArrive{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes coffeeSteam{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
+@media(max-width:900px){.living-encounter,.compact-encounter{grid-template-columns:1fr}.living-encounter>.living-scene,.compact-encounter>.living-scene{grid-row:auto;min-height:300px}.living-encounter .step-actions,.compact-encounter .step-actions{grid-column:1}.living-person{width:60%}}
+@media(max-width:600px){.living-scene{min-height:270px}.living-person{right:2%;width:67%;height:84%}.living-you{bottom:7%;left:4%}.living-place{left:4%;top:5%}.living-id{right:5%;bottom:7%}}
+@media(prefers-reduced-motion:reduce){.living-office-bg,.living-person,.living-you,.living-scene.mood-coffee:before{animation:none!important}.living-person,.living-you{opacity:1;transform:none}}
+
+/* =====================================================================
+   v6.1 FINAL POLISH — encounters, day-end, new-day
+   ===================================================================== */
+.living-you{display:none!important}
+.living-scene{min-height:460px;background:#091321}
+.living-person{right:3%;top:4%;width:66%;height:92%;border-radius:26px;box-shadow:0 30px 70px rgba(0,0,0,.38)}
+.living-person img{object-position:center 24%;transition:transform .6s ease,filter .6s ease}
+.living-scene:hover .living-person img{transform:scale(1.025)}
+.living-place{left:5%;top:6%;background:rgba(5,13,26,.82)}
+.living-id{left:5%;right:auto;bottom:7%;align-items:flex-start;padding:12px 14px;border-radius:16px;background:linear-gradient(90deg,rgba(5,13,26,.9),rgba(5,13,26,.46));backdrop-filter:blur(10px)}
+.living-id strong{font-size:1.45rem}.living-id span{color:#8fa3c2}
+.living-encounter{grid-template-columns:minmax(360px,.95fr) minmax(360px,1fr);gap:24px}
+.living-encounter .bubbles,.compact-encounter .bubbles{position:relative;align-self:center}
+.conversation-line{opacity:0;transform:translateY(10px);animation:conversationReveal .42s calc(var(--i)*.55s + .2s) ease forwards}
+.conversation-who{display:block;margin:0 0 7px 10px;color:var(--mint);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.conversation-line .bubble{margin:0 0 12px;padding:17px 19px;line-height:1.55;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg,rgba(24,39,64,.98),rgba(16,28,47,.98));box-shadow:0 14px 32px rgba(0,0,0,.16)}
+.conversation-bubbles .typing{animation-delay:1.1s}
+.dialog-step.living-encounter .step-actions .primary-button{min-height:48px;padding-inline:22px;border-radius:13px;width:auto}
+.quest-body .living-encounter{margin-top:4px}
+.quest-body .living-scene.mood-coffee:before{left:5%;top:20%;font-size:42px}
+.compact-encounter>.living-scene{min-height:320px}.living-scene.compact .living-person{width:72%;right:2%;top:4%;height:92%}.living-scene.compact .living-place{left:5%;top:6%}
+@keyframes conversationReveal{to{opacity:1;transform:none}}
+
+.dayend-v61{max-width:1040px;text-align:left}.dayend-hero{position:relative;min-height:230px;margin:0 0 22px;border-radius:24px;overflow:hidden;background:linear-gradient(90deg,rgba(5,12,24,.18),rgba(5,12,24,.72)),var(--img) center 58%/cover no-repeat;border:1px solid rgba(255,255,255,.09);box-shadow:0 24px 60px rgba(0,0,0,.24)}
+.dayend-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(5,12,24,.82))}.dayend-hero>div{position:absolute;z-index:1;left:28px;bottom:25px;max-width:620px}.dayend-hero span{color:var(--mint);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.dayend-hero h2{font-size:2rem;margin:6px 0}.dayend-hero p{margin:0;color:#b7c4d9}.dayend-v61 .de-clock{text-align:left;color:#7f93b2;margin:0 0 10px}.dayend-v61 .de-grid{grid-template-columns:1.35fr .65fr}.dayend-v61 .de-maya{text-align:left;background:linear-gradient(145deg,rgba(21,35,58,.95),rgba(13,24,41,.95))}.dayend-v61 .evening{text-align:left;margin-top:18px}.dayend-v61>.primary-button.big{display:flex;margin:22px 0 0 auto}
+
+.morning-v61{max-width:1180px}.morning-v61 .scene-wrap{min-height:470px}.morning-focus{position:absolute;right:22px;bottom:22px;z-index:4;width:min(340px,42%);padding:16px 18px;border-radius:18px;background:rgba(7,15,29,.86);border:1px solid rgba(255,255,255,.11);backdrop-filter:blur(14px);box-shadow:0 18px 44px rgba(0,0,0,.25);animation:conversationReveal .5s .45s both}.morning-focus span{display:block;color:var(--mint);font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:800}.morning-focus strong{display:block;margin:5px 0;font-size:1.05rem}.morning-focus small{display:block;color:#aebbd0;line-height:1.4}.morning-v61 .morning-body{margin-top:18px}
+
+@media(max-width:900px){.living-encounter{grid-template-columns:1fr}.living-scene{min-height:340px}.living-person{width:68%}.dayend-v61 .de-grid{grid-template-columns:1fr}.morning-focus{width:auto;left:18px;right:18px;bottom:18px}.morning-v61 .scene-wrap{min-height:430px}}
+@media(max-width:600px){.living-scene{min-height:300px}.living-person{width:76%;right:-2%}.living-id{left:4%;bottom:5%}.dayend-hero{min-height:210px}.dayend-hero>div{left:18px;right:18px;bottom:18px}.dayend-hero h2{font-size:1.55rem}.morning-focus{position:relative;left:auto;right:auto;bottom:auto;margin:10px}.morning-v61 .scene-wrap{min-height:auto;padding-bottom:8px}}
+@media(prefers-reduced-motion:reduce){.conversation-line,.morning-focus{animation:none!important;opacity:1!important;transform:none!important}.living-scene:hover .living-person img{transform:none}}
+
+/* v6.2 — case dialogue regression fix */
+.case-page .dialog-step:not(.living-encounter), .case-shell .dialog-step:not(.living-encounter){max-width:760px;display:block}
+.dialog-step:not(.living-encounter)>.speaker{margin-bottom:18px}
+.dialog-step:not(.living-encounter)>.bubbles{display:block}
+.dialog-step:not(.living-encounter)>.step-actions{margin-top:20px}
+/* v6.3 — case dialogue is immediate; cinematic encounters keep sequential motion */
+.dialog-step:not(.cinematic-encounter) .conversation-line,
+.dialog-step:not(.cinematic-encounter) .instant-line {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+.dialog-step:not(.cinematic-encounter) .bubble { display:block; }
+.dialog-step:not(.cinematic-encounter) .typing { display:none !important; }
+
+/* v6.4 — dialogue reliability: animation may decorate, never gate content */
+.dialog-step .conversation-line,
+.dialog-step.cinematic-encounter .conversation-line {
+  opacity:1 !important; transform:none !important; animation:none !important;
+}
+.dialog-step .bubble,
+.dialog-step.cinematic-encounter .bubble { display:block !important; }
+.dialog-step .typing { display:none !important; }
+.dialog-step .step-actions.waiting { opacity:1 !important; pointer-events:auto !important; }
+.living-scene.scene-entered { animation:sceneSoftFocus .5s ease both; }
+@keyframes sceneSoftFocus { from { filter:brightness(.94); } to { filter:brightness(1); } }
+@media(prefers-reduced-motion:reduce){.living-scene.scene-entered{animation:none!important}}
+
+
+/* v6.5 — paced conversation standard for every Living Office encounter */
+.paced-encounter .conversation-bubbles{align-self:center;display:flex;flex-direction:column;justify-content:center;min-height:240px}
+.conversation-speaker{display:flex;align-items:baseline;gap:10px;margin:0 0 12px 10px}
+.conversation-speaker span{color:var(--mint);font-size:.86rem;font-weight:800;letter-spacing:.04em}
+.conversation-speaker small{color:#8295b4;font-size:.78rem}
+.paced-encounter .conversation-line{opacity:1!important;transform:none!important;animation:encounterBubbleIn .28s ease both!important}
+.paced-encounter .conversation-line .bubble{font-size:1.05rem;line-height:1.58;padding:20px 22px;margin:0;border-radius:18px}
+.conversation-progress{display:flex;gap:7px;margin:15px 10px 0}
+.conversation-progress i{width:24px;height:4px;border-radius:99px;background:#263a5b;transition:background .2s ease,transform .2s ease}
+.conversation-progress i.on{background:var(--mint);transform:scaleX(1.04)}
+.paced-encounter .step-actions{display:flex;align-items:flex-end;justify-content:flex-start}
+.paced-encounter .encounter-cta{min-width:132px;min-height:50px;border-radius:14px;padding:0 20px;font-size:.95rem}
+.paced-encounter .encounter-cta span{display:inline-block;margin-left:8px;transition:transform .2s ease}
+.paced-encounter .encounter-cta:hover span{transform:translateX(3px)}
+@keyframes encounterBubbleIn{from{opacity:.35;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.paced-encounter .conversation-bubbles{min-height:auto}.paced-encounter .step-actions{justify-content:flex-end}.paced-encounter .encounter-cta{width:auto}}
+@media(max-width:600px){.conversation-speaker{flex-direction:column;gap:2px}.paced-encounter .conversation-line .bubble{font-size:1rem;padding:17px}.paced-encounter .encounter-cta{width:100%}}
+@media(prefers-reduced-motion:reduce){.paced-encounter .conversation-line{animation:none!important}.paced-encounter .encounter-cta span{transition:none}}
+
+/* =====================================================================
+   v6.7 — REAL TWO-PERSON ENCOUNTERS
+   Ana karakter encounter'larında eski ofis crop + portre kolajı kaldırıldı.
+   Sahne tek fotoğraf olarak kalır; UI yalnız oyunun kendi katmanıdır.
+   ===================================================================== */
+.paired-scene{position:relative;overflow:hidden;background:#091526;min-height:470px;border-radius:22px;isolation:isolate}
+.paired-scene-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transform:scale(1.015);transition:transform 5s cubic-bezier(.2,.7,.2,1),filter .35s ease}
+.paired-scene.scene-entered .paired-scene-photo{transform:scale(1.055)}
+.paired-scene-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,12,24,.02) 45%,rgba(5,12,24,.86) 100%);z-index:1;pointer-events:none}
+.paired-scene .living-place,.paired-scene .living-id{z-index:2}
+.paired-scene .living-id{left:18px;right:auto;bottom:18px;max-width:80%;backdrop-filter:blur(12px)}
+.paired-scene .living-place{top:18px;left:18px}
+/* Eski compositing katmanları paired sahnede hiçbir zaman görünmesin. */
+.paired-scene .living-office-bg,.paired-scene .living-light,.paired-scene .living-person,.paired-scene .player-presence{display:none!important}
+/* Encounter'ın choice/reply adımlarında da görsel + karar paneli dengeli kalsın. */
+.quest-body .step-grid:not(.solo)>.stage:has(.paired-scene){align-self:stretch}
+.quest-body .step-grid:not(.solo)>.stage:has(.paired-scene) .paired-scene{height:100%;min-height:440px}
+@media(max-width:900px){.paired-scene{min-height:360px}.quest-body .step-grid:not(.solo)>.stage:has(.paired-scene) .paired-scene{min-height:340px}}
+@media(prefers-reduced-motion:reduce){.paired-scene-photo{transition:none!important;transform:none!important}.paired-scene.scene-entered .paired-scene-photo{transform:none!important}}
