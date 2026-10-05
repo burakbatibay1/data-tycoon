@@ -224,10 +224,10 @@ function viewFirstDay() {
 function viewInbox() {
   return `<div class="firstday-cinematic-v54">
     <section class="firstday-film instant" aria-label="Maya ile ilk karşılaşma">
-      <img class="fd-shot fd-single" src="assets/scenes/firstday-clean-3.webp" alt="Maya Nexora Analytics ofisinde masanın yanında" fetchpriority="high" decoding="async">
+      <img class="fd-shot fd-single" src="scene-firstday-clean-3.webp" alt="Maya Nexora Analytics ofisinde masanın yanında" fetchpriority="high" decoding="async">
       <div class="fd-film-grain" aria-hidden="true"></div>
       <div class="fd-dialogue instant-dialogue">
-        <div class="fd-speaker"><img src="assets/characters/maya-cinematic.webp" alt="Maya"><div><strong>Maya</strong><span>Analytics Manager</span></div></div>
+        <div class="fd-speaker"><img src="char-maya-cinematic.webp" alt="Maya"><div><strong>Maya</strong><span>Analytics Manager</span></div></div>
         <div class="fd-lines">
           <p>Günaydın ${playerName()}! Nexora'ya hoş geldin.</p>
           <p>İlk gününde seni doğrudan dashboard'un önüne bırakmayacağım. Önce problemi nasıl düşüneceğimizi birlikte görelim.</p>

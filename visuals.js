@@ -128,7 +128,7 @@ function hairShapes(P, cx, cy, s) {
 let _avId = 0;
 function avatar(id, size = 44, preset) {
   const photoPeople = {maya:"maya",buse:"buse",deniz:"deniz",alex:"alex",zeynep:"zeynep",ceo:"ceo"};
-  if (!preset && photoPeople[id]) return `<img class="avatar photo-avatar" src="assets/characters/${photoPeople[id]}.jpg" width="${size}" height="${size}" alt="" loading="eager" decoding="async">`;
+  if (!preset && photoPeople[id]) return `<img class="avatar photo-avatar" src="char-${photoPeople[id]}.jpg" width="${size}" height="${size}" alt="" loading="eager" decoding="async">`;
   const P = preset || personOf(id), uid = `av${++_avId}`;
   return `<svg class="avatar" width="${size}" height="${size}" viewBox="0 0 48 48" aria-hidden="true">
     <defs><clipPath id="${uid}"><circle cx="24" cy="24" r="24"/></clipPath></defs>
@@ -247,7 +247,7 @@ function encounterSceneHTML(who, def, compact=false){
   // Her ana karakter için oyuncuyla aynı kadrajda, konuşma bağlamına uygun
   // iki kişilik sinematik asset kullanılıyor. Burak için güvenli ofis fallback'i var.
   const paired = ["maya","buse","deniz","alex","zeynep","ceo"].includes(who);
-  const scene = paired ? `assets/encounters/${who}-conversation.webp` : OFFICE_IMAGE;
+  const scene = paired ? `encounter-${who}-conversation.webp` : OFFICE_IMAGE;
   return `<div class="living-scene paired-scene mood-${mood.key} ${compact?"compact":""}" data-living-scene>
     <img class="paired-scene-photo" src="${scene}" alt="${P.name} ile ${mood.label} konuşması" loading="eager" decoding="async">
     <div class="paired-scene-shade"></div>
