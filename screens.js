@@ -169,13 +169,13 @@ function viewWelcome() {
     <div class="launch-copy">
       <span class="eyebrow">Nexora Analytics, İstanbul</span>
       <h2>Stajyer olarak başla.<br>Gerçek bir veri kariyeri kur.</h2>
-      <p>İş problemlerini araştır, analitik becerilerini geliştir, ofisteki yan görevlerle ekibine yardım et ve ilk terfini kazan. Takıldığın her yerde Maya seni adım adım yönlendirecek.</p>
+      <p>İş problemlerini araştır, SQL, istatistik, deney ve makine öğrenmesiyle karar ver; ekibinle birlikte büyü ve kariyer basamaklarını tek tek tırman. Takıldığın her yerde Maya seni adım adım yönlendirecek.</p>
       <div class="launch-actions">
         ${can ? `<button class="primary-button big" data-action="continue">Kariyere devam et</button>` : ""}
         <button class="${can ? "ghost-button big" : "primary-button big"}" data-action="new-career">Yeni kariyer başlat</button>
       </div>
       ${can && saved ? `<p class="save-line">${icon("save")}${saved.profile && saved.profile.name ? saved.profile.name + ", " : ""}${saved.day}. gün, ${saved.completed.length} vaka çözüldü, ${saved.xp} XP</p>` : ""}
-      <ul class="launch-facts"><li><b>6</b>vaka, satış gizeminden yönetim kurulu brifingine</li><li><b>12</b>yan görev ofisin dört bir yanında</li><li><b>4</b>katmanlı rehberlik: hedef, yaklaşım, ipucu, birlikte çözüm</li></ul>
+      <ul class="launch-facts"><li><b>${CASES.length}</b>ana vaka, 8 bölüm: stajyerlikten Veri Direktörlüğüne</li><li><b>${QUESTS.length + EVENTS.length}</b>yan görev ve ofis anı; her biri bir karar</li><li><b>4</b>seviyeli öğrenme kanıtı: keşif, pratik, transfer, ustalık</li></ul>
     </div></div>`;
 }
 function viewProfile() {

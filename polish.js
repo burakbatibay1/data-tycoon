@@ -206,7 +206,7 @@ renderTop = (orig => function () {
   orig();
   if (!player.started) { document.getElementById("careerTrack")?.remove(); return; }
   let t = document.getElementById("careerTrack");
-  if (!t) { t = document.createElement("div"); t.id = "careerTrack"; t.className = "career-track"; document.querySelector(".career-status")?.prepend(t); }
+  if (!t) { t = document.createElement("div"); t.id = "careerTrack"; t.className = "career-track"; const cs = document.querySelector(".career-status"); if (cs) cs.insertBefore(t, cs.querySelector(".phone-btn")); }
   const ch = player.chapter || 1, cs = CASES.filter(c => (c.chapter || 1) === ch), done = cs.filter(c => isDone(c.id)).length;
   t.innerHTML = `<span class="status-label">Kariyer: ${ch}. bölüm / 8</span><div class="ct-segs">${[1, 2, 3, 4, 5, 6, 7, 8].map(i => `<i class="${i < ch || (i === ch && player.chapterDone) ? "done" : i === ch ? "now" : ""}" title="${CAREER_MAP[i - 1].role}">${i === ch && !player.chapterDone ? `<b style="width:${done / Math.max(1, cs.length) * 100}%"></b>` : ""}</i>`).join("")}</div>`;
 })(renderTop);

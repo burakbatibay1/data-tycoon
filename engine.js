@@ -230,7 +230,7 @@ function exploreDone(st, d) { return (st.explore || []).every(e => typeof e === 
 function panelHTML(def) {
   const pr = prog(def.id), st = curStep(def);
   const head = `${st.who ? speakerLine(st.who) : ""}<h3 tabindex="-1">${st.prompt}</h3>${st.sub ? `<p class="sub">${st.sub}</p>` : ""}`;
-  const done = pr.solved ? `${st.takeaway ? `<div class="takeaway">${icon("check")}<div><span>Akılda kalsın</span><p>${st.takeaway}</p></div></div>` : ""}${nextButton(def, pr)}` : "";
+  const done = pr.solved ? `${st.learningLens && (def.chapter || 1) >= 3 ? `<div class="takeaway learning-lens">${icon("bulb")}<div><span>Neden bu karar?</span><p>${st.learningLens}</p></div></div>` : ""}${st.takeaway ? `<div class="takeaway">${icon("check")}<div><span>Akılda kalsın</span><p>${st.takeaway}</p></div></div>` : ""}${nextButton(def, pr)}` : "";
   if (st.type === "choice") {
     const ci = st.options.findIndex(o => o.correct);
     if (st.explore && !exploreDone(st, pr.data)) return `${head}${guideHTML(def, pr, st)}
@@ -371,7 +371,7 @@ function answer(def, i, btn) {
     let extra = "";
     if (policyOf(def).hints && pr.hint < (st.hints || []).length) { pr.hint++; extra = "Seni yönlendirmek için yeni bir ipucu açıldı."; }
     else if (st.solve && !pr.solve && pr.wrong.length >= 2) extra = "İstersen Maya ile adım adım birlikte çözebilirsin.";
-    pr.fb = { ok: false, text: o.fb, extra };
+    pr.fb = { ok: false, text: o.fb + (o.consequence ? ` <strong>Sonuç:</strong> ${o.consequence}` : ""), extra };
     if (btn) { btn.classList.add("shake"); }
     if (st.egg && pr.wrong.length === st.egg.after) setTimeout(() => toast(st.egg.text, "egg"), 900);
   }
