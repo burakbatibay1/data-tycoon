@@ -133,7 +133,8 @@ function nodesHelpedBy(id) { const miss = new Set(missingReq().map(([k]) => pars
 const meetsReq = () => missingReq().length === 0;
 const level = () => Math.floor(player.xp / XP_PER_LEVEL) + 1;
 
-function addInbox(from, text) { player.inbox.unshift({ from, text, day: player.day }); player.inbox = player.inbox.slice(0, 12); player.unread++; }
+function addInbox(from, text) {
+  window.DTSound?.one('notification','sfx',.75); player.inbox.unshift({ from, text, day: player.day }); player.inbox = player.inbox.slice(0, 12); player.unread++; }
 function addFeed(text) { player.feed.unshift({ text, day: player.day }); player.feed = player.feed.slice(0, 8); }
 function applyRewards(rewards, xp) {
   const lv = level(), before = { ...player.skills };
@@ -493,7 +494,7 @@ function completeCase(def) {
   const snap = snapshot(), pr = prog(def.id), treeBefore = nodePctMap(), evBefore = earnedSources();
   const steps = pr.log.length, indep = pr.log.filter(l => l.indep).length;
   const perfect = steps > 0 && indep === steps, bonus = perfect ? Math.round(def.xp * 0.2) : 0;
-  player.completed.push(def.id); if (perfect) { player.firstTry.push(def.id); unlockAch("independent"); }
+  player.completed.push(def.id); window.DTSound?.one(def.promotion ? 'promotion' : 'success', def.promotion ? 'music' : 'sfx'); if (perfect) { player.firstTry.push(def.id); unlockAch("independent"); }
   if (pr.log.some(l => l.transfer && l.indep)) player.transferOK.push(def.id);
   const gains = applyRewards(def.rewards, def.xp + bonus);
   player.dayPhase = "after"; player.today.caseId = def.id;

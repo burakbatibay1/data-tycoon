@@ -78,6 +78,7 @@ function windowSceneFor(text, phase) {
 }
 function openWindowView(text, phase, clock) {
   const [scene, sceneAlt] = windowSceneFor(text, phase);
+  window.DTSound?.window(text, phase);
   openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button>
     <div class="window-view-head"><span class="window-view-icon">◉</span><div><h3>Pencereden Bak</h3><span>Nexora Ofis · İstanbul</span></div></div>
     <div class="window-view-photo"><img src="${scene}" alt="${sceneAlt} — Nexora ofis penceresinden İstanbul"></div>
@@ -163,6 +164,8 @@ function render() {
   $("rightPanel").innerHTML = player.started ? viewRightPanel() : "";
   document.querySelectorAll(".nav-item[data-nav]").forEach(b => { b.classList.toggle("active", NAV_OF[s] === b.dataset.nav); b.disabled = !player.started; });
   countUp($("workspace"));
+  // Audio must sync after the resolved screen has been committed and rendered.
+  window.DTSound?.sync();
 }
 function renderTop() {
   const lv = level(), into = player.xp % XP_PER_LEVEL;
@@ -457,7 +460,11 @@ function viewSettings() {
         <div class="kv"><span>Son kontrol noktası</span><b>${when}</b></div>
         <div class="btn-row"><button class="primary-button" data-action="checkpoint-save">${icon("save")}Kontrol noktası oluştur</button><button class="ghost-button" data-action="checkpoint-load" ${hasCheckpoint() ? "" : "disabled"}>Kontrol noktasına dön</button></div></section>
       <section class="card"><h3>Deneyim</h3>
-        <label class="check-row"><input type="checkbox" id="setAnim" ${p.animations !== false ? "checked" : ""} data-action="toggle-anim"><span><b>Animasyonlar</b><small>Geçişler, diyalog busektleri ve kutlamalar. Sistemde 'hareketi azalt' açıksa her zaman kapalıdır.</small></span></label></section>
+        <label class="check-row"><input type="checkbox" id="setAnim" ${p.animations !== false ? "checked" : ""} data-action="toggle-anim"><span><b>Animasyonlar</b><small>Geçişler, diyalog efektleri ve kutlamalar. Sistemde hareketi azalt açıksa kapanır.</small></span></label></section>
+      <section class="card audio-settings"><h3>Ses ve atmosfer</h3>
+        <label class="check-row"><input type="checkbox" ${window.DTSound?.cfg.enabled !== false ? "checked" : ""} data-action="audio-enabled"><span><b>Ses açık</b><small>Ofis atmosferi, bildirimler ve önemli an efektleri.</small></span></label>
+        ${[["master","Ana ses"],["ambience","Ortam"],["sfx","Efektler"],["music","Önemli anlar"]].map(([k,l])=>`<label class="audio-row"><span>${l}</span><input type="range" min="0" max="100" value="${Math.round((window.DTSound?.cfg[k] ?? .7)*100)}" data-action="audio-volume" data-audio="${k}"><b>${Math.round((window.DTSound?.cfg[k] ?? .7)*100)}%</b></label>`).join("")}
+        <button class="ghost-button small" data-action="audio-test">Sesi test et</button></section>
       <section class="card danger"><h3>Kariyeri sıfırla</h3><p class="muted">Bu tarayıcıdaki tüm ilerlemeyi ve kontrol noktasını siler.</p><button class="danger-button" data-action="reset-ask">Kariyeri sıfırla</button></section>
     </div>`;
 }

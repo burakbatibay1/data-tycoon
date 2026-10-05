@@ -76,10 +76,11 @@ document.addEventListener("input", e => {
   if (e.target.id === "profileName") { const b = $("badgeName"); if (b) b.textContent = e.target.value.trim() || "Adın"; e.target.classList.remove("input-error"); }
 });
 document.addEventListener("click", e => {
-  if (e.target === $("modal")) { closeModal(); return; }
+  if (e.target === $("modal")) { closeModal(); window.DTSound?.restoreOffice(); return; }
   const hotEl = e.target.closest("[data-hot]");
   if (hotEl && !hotEl.closest(".is-static")) { onHot(hotEl.dataset.hot); return; }
   const el = e.target.closest("[data-action],[data-nav]"); if (!el || el.disabled) return;
+  // v7.4.2.5: global menu/button click SFX disabled; important event SFX remain.
   if (el.dataset.nav && !el.dataset.action) { closeModal(); go(el.dataset.nav); return; }
   const def = el.dataset.def && defOf(el.dataset.def);
   switch (el.dataset.action) {
@@ -126,7 +127,7 @@ document.addEventListener("click", e => {
       player.profile.name = name; player.profile.animations = $("profileAnim").checked;
       player.screen = "firstday"; save(true); render(); break;
     }
-    case "ride": rideElevator(el); break;
+    case "ride": window.DTSound?.one('elevator'); rideElevator(el); break;
     case "skip-cine": player.started = true; player.day = 1; addInbox("maya", "Nexora'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); break;
     case "open-case": closeModal(); go("case", el.dataset.id); break;
     case "open-quest": openQuest(el.dataset.id); break;
@@ -166,12 +167,14 @@ document.addEventListener("click", e => {
     case "toggle": toggleSwitch(def, el.dataset.key); break;
     case "vis-toggle": { const d = stepDefFrom(el); if (d) { const pr = prog(d.id); pr.data[el.dataset.key] = !pr.data[el.dataset.key]; save(true); rerender(d, "both"); } break; }
     case "to-office": go("office"); break;
-    case "to-promotion": go("promotion"); break;
-    case "close-modal": closeModal(); break;
+    case "to-promotion": window.DTSound?.one('promotion','music'); go("promotion"); break;
+    case "close-modal": closeModal(); window.DTSound?.restoreOffice(); break;
     case "mark-read": player.unread = 0; save(); render(); break;
     case "revisit": { const c = CASE_BY_ID[el.dataset.id]; openStory("maya", `${c.concept.name}`, `<p>${c.concept.text}</p><ul class="points">${c.concept.points.map(p => `<li>${icon("check")}${p}</li>`).join("")}</ul><p class="quote">“${c.mentor}”</p>`); break; }
     case "save-profile": { const n = ($("setName").value || "").trim(); if (n) player.profile.name = n; save(); render(); toast("Profil kaydedildi"); break; }
     case "toggle-anim": player.profile.animations = el.checked; save(); render(); break;
+    case "audio-enabled": window.DTSound?.set('enabled', el.checked); render(); break;
+    case "audio-test": window.DTSound?.unlock(); window.DTSound?.one('notification'); break;
     case "checkpoint-save": saveCheckpoint(); render(); toast("Kontrol noktası oluşturuldu"); break;
     case "checkpoint-load": if (loadCheckpoint()) { render(); toast("Kontrol noktasına dönüldü"); } break;
     case "reset-ask": openStory(null, "Kariyer sıfırlansın mı?", "<p>Tüm ilerlemen ve kontrol noktan silinecek. Bu işlem geri alınamaz.</p>",
@@ -180,7 +183,7 @@ document.addEventListener("click", e => {
 });
 function stepDefFrom(el) { const body = el.closest("[data-step-body]"); const any = body && body.querySelector("[data-def]"); return any ? defOf(any.dataset.def) : null; }
 document.addEventListener("change", e => { const el = e.target.closest('[data-action="field"]'); if (el && el.type !== "range") setField(defOf(el.dataset.def), el.dataset.key, el); });
-document.addEventListener("input", e => { const el = e.target.closest('[data-action="field"]'); if (el && el.type === "range") setField(defOf(el.dataset.def), el.dataset.key, el); });
+document.addEventListener("input", e => { const a=e.target.closest('[data-action="audio-volume"]'); if(a){window.DTSound?.set(a.dataset.audio,+a.value/100); const b=a.parentElement.querySelector('b'); if(b)b.textContent=a.value+'%'; return;} const el = e.target.closest('[data-action="field"]'); if (el && el.type === "range") setField(defOf(el.dataset.def), el.dataset.key, el); });
 document.addEventListener("keydown", e => {
   if ((e.key === "Enter" || e.key === " ") && e.target.matches(".tnode")) { e.preventDefault(); treeSelect(e.target.dataset.id); return; }
   if (e.key === "Escape" && $("modal").classList.contains("visible")) { closeModal(); return; }
