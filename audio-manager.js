@@ -15,7 +15,7 @@ const DT_AUDIO_KEY = "dataTycoonAudioV75";
 window.DTSound = {
   cfg: { enabled: true, master: 0.8, ambience: 0.85, sfx: 0.7, music: 0.6 },
   files: {
-    officeDay: "office-day.mp3", officeNight: "office-night.mp3", rain: "rain-window.mp3", wind: "wind-window.mp3",
+    officeDay: "office-day-final-v1.mp3", officeNight: "office-night.mp3", rain: "rain-window.mp3", wind: "wind-window.mp3",
     notification: "notification.mp3", click: "click.mp3", success: "success.mp3", warning: "warning.mp3",
     elevator: "elevator-ding.mp3", promotion: "promotion.mp3", incident: "incident.mp3"
   },

@@ -187,9 +187,10 @@ function viewWelcome() {
   return `<div class="launch">
     <div class="launch-bg" aria-hidden="true"><img src="${OFFICE_IMAGE}" alt=""></div>
     <div class="launch-copy">
-      <span class="eyebrow">Nexora Analytics, İstanbul</span>
-      <h2>Stajyer olarak başla.<br>Gerçek bir veri kariyeri kur.</h2>
-      <p>İş problemlerini araştır, SQL, istatistik, deney ve makine öğrenmesiyle karar ver; ekibinle birlikte büyü ve kariyer basamaklarını tek tek tırman. Takıldığın her yerde Maya seni adım adım yönlendirecek.</p>
+      <span class="eyebrow">DATA TYCOON · NEXORA ANALYTICS</span>
+      <h2>Start as an intern.<br>Become a real data scientist.</h2>
+      <p>Gerçek şirket problemleriyle veri bilimini öğren. Veriyi keşfet, SQL ve Python kullan, deney tasarla, modeller geliştir ve kararlarının sonuçlarını gör. Stajyerlikten Veri Direktörlüğüne uzanan kariyerini inşa et.</p>
+      <div class="launch-beta"><span>PUBLIC BETA</span><small>59 vaka · SQL · Python · İstatistik · ML · GenAI · Liderlik</small></div>
       <div class="launch-actions">
         ${can ? `<button class="primary-button big" data-action="continue">Kariyere devam et</button>` : ""}
         <button class="${can ? "ghost-button big" : "primary-button big"}" data-action="new-career">Yeni kariyer başlat</button>
