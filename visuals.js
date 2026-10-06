@@ -210,7 +210,7 @@ function officeStage(opts = {}) {
   const lamps = [[62.45, 2.3], [65.7, 11.9], [69.5, 16.4], [74.6, 8.8], [84.2, 8], [48.5, 11.5]];
   return `<div class="office-scroll"><div class="office-stage ${opts.static ? "is-static" : ""}">
     <div class="office-kb">
-      <img class="office-img" src="${OFFICE_IMAGE}" alt="Nexora Analytics İstanbul ofisi: Maya, Alex, kahve makinesi, takım panosu, beyaz tahta ve dinlenme alanı" draggable="false">
+      <img class="office-img" src="${OFFICE_IMAGE}" alt="Virelio Analytics İstanbul ofisi: Maya, Alex, kahve makinesi, takım panosu, beyaz tahta ve dinlenme alanı" draggable="false">
       <div class="ambient" aria-hidden="true">
         <span class="neon"></span>
         ${lamps.map(([x, y], i) => `<span class="lamp" style="left:${x}%;top:${y}%;--d:${i * 0.7}s"></span>`).join("")}
@@ -238,7 +238,7 @@ function sceneMood(def){
   if (/review|pr|mentor/.test(s)) return {key:"review",label:"Kod review",icon:"⌘"};
   if (/koridor|asansör/.test(s)) return {key:"corridor",label:"Koridor",icon:"→"};
   if (/toplantı|meeting/.test(s)) return {key:"meeting",label:"Toplantı odası",icon:"◎"};
-  return {key:"office",label:"Nexora ofisi",icon:"●"};
+  return {key:"office",label:"Virelio ofisi",icon:"●"};
 }
 function encounterSceneHTML(who, def, compact=false){
   if(!isHumanSpeaker(who)) return "";
@@ -252,6 +252,6 @@ function encounterSceneHTML(who, def, compact=false){
     <img class="paired-scene-photo" src="${scene}" alt="${P.name} ile ${mood.label} konuşması" loading="eager" decoding="async">
     <div class="paired-scene-shade"></div>
     <div class="living-place"><i>${mood.icon}</i><span>${mood.label}</span></div>
-    <div class="living-id"><strong>${P.name}</strong><span>${P.role||"Nexora Analytics"}</span></div>
+    <div class="living-id"><strong>${P.name}</strong><span>${P.role||"Virelio Analytics"}</span></div>
   </div>`;
 }

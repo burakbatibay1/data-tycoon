@@ -80,8 +80,8 @@ function openWindowView(text, phase, clock) {
   const [scene, sceneAlt] = windowSceneFor(text, phase);
   window.DTSound?.window(text, phase);
   openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button>
-    <div class="window-view-head"><span class="window-view-icon">◉</span><div><h3>Pencereden Bak</h3><span>Nexora Ofis · İstanbul</span></div></div>
-    <div class="window-view-photo"><img src="${scene}" alt="${sceneAlt} — Nexora ofis penceresinden İstanbul"></div>
+    <div class="window-view-head"><span class="window-view-icon">◉</span><div><h3>Pencereden Bak</h3><span>Virelio Ofis · İstanbul</span></div></div>
+    <div class="window-view-photo"><img src="${scene}" alt="${sceneAlt} — Virelio ofis penceresinden İstanbul"></div>
     <div class="window-view-caption"><div class="window-view-time"><span>${weekday(player.day)}, ${player.day}. gün · ${phase}</span><strong>${clock}</strong></div><p>${text}</p></div>
     <div class="modal-actions"><button class="primary-button" data-action="close-modal">Ofise dön</button></div>`, "window-view-modal");
 }
@@ -104,7 +104,7 @@ function openSlack() {
   const threads = SLACK.filter(t => t.day <= player.day).slice().reverse();
   const dms = QUESTS.filter(q => q.hot === "phone" && questState(q) === "available");
   const ev = player.pendingEvent && EVENT_BY_ID[player.pendingEvent];
-  openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button><div class="slack"><div class="slack-head"><span class="slack-logo">#</span><div><h3>Nexora Slack</h3><span class="muted small">${weekday(player.day)}, ${player.day}. gün</span></div></div>
+  openModal(`<button class="modal-close" data-action="close-modal" aria-label="Kapat">×</button><div class="slack"><div class="slack-head"><span class="slack-logo">#</span><div><h3>Virelio Slack</h3><span class="muted small">${weekday(player.day)}, ${player.day}. gün</span></div></div>
     ${dms.length || ev ? `<div class="slack-sec"><span>Sana gelenler</span>${ev ? `<button class="slack-dm urgent" data-action="open-event" data-id="${ev.id}">${avatar(ev.who,32)}<div><b>${PEOPLE[ev.who].name}</b><p>${ev.notify}</p></div><em>Yanıtla</em></button>`:""}${dms.map(q=>`<button class="slack-dm" data-action="open-quest" data-id="${q.id}">${avatar(q.who,32)}<div><b>${PEOPLE[q.who].name}</b><p>${q.title}</p></div><em>Aç</em></button>`).join("")}</div>`:""}
     ${threads.map(t=>`<div class="slack-sec"><span>${t.ch} <i>${t.day===player.day?"bugün":`${t.day}. gün`}</i></span>${t.msgs.map(([w,m])=>`<div class="slack-msg">${avatar(w,30)}<div><b>${PEOPLE[w].name.split(" ")[0]}</b><p>${m}</p></div></div>`).join("")}${t.event&&player.pendingEvent===t.event?`<button class="ghost-button small" data-action="open-event" data-id="${t.event}">Konuşmaya katıl</button>`:""}</div>`).join("")}</div>`, "slack-modal");
 }
@@ -187,7 +187,7 @@ function viewWelcome() {
   return `<div class="launch">
     <div class="launch-bg" aria-hidden="true"><img src="${OFFICE_IMAGE}" alt=""></div>
     <div class="launch-copy">
-      <span class="eyebrow">DATA TYCOON · NEXORA ANALYTICS</span>
+      <span class="eyebrow">DATA TYCOON · VIRELIO ANALYTICS</span>
       <h2>Start as an intern.<br>Become a real data scientist.</h2>
       <p>Gerçek şirket problemleriyle veri bilimini öğren. Veriyi keşfet, SQL ve Python kullan, deney tasarla, modeller geliştir ve kararlarının sonuçlarını gör. Stajyerlikten Veri Direktörlüğüne uzanan kariyerini inşa et.</p>
       <div class="launch-beta"><span>PUBLIC BETA</span><small>59 vaka · SQL · Python · İstatistik · ML · GenAI · Liderlik</small></div>
@@ -204,7 +204,7 @@ function viewProfile() {
   return `<div class="onboard">
     <div class="onboard-card">
       <span class="eyebrow">İşe giriş, 1. adım</span>
-      <h2>Nexora profilini oluştur</h2>
+      <h2>Virelio profilini oluştur</h2>
       <p class="muted">Adın mesajlarda, kariyer profilinde ve hikâye anlarında görünecek.</p>
       <label class="field-label" for="profileName">Adın</label>
       <input id="profileName" class="text-input" maxlength="24" placeholder="Örneğin Burak" value="${p.name || ""}" autocomplete="given-name">
@@ -213,14 +213,14 @@ function viewProfile() {
       <label class="check-row"><input type="checkbox" id="profileAnim" ${p.animations !== false ? "checked" : ""}><span><b>Animasyonlar</b><small>Sinematik geçişler, diyalog busektleri ve kutlamalar</small></span></label>
       <div class="onboard-actions"><button class="ghost-button" data-action="back-welcome">Geri</button><button class="primary-button" data-action="finish-profile">İlk güne başla</button></div>
     </div>
-    <div class="onboard-badge" aria-hidden="true"><div class="badge-card"><div class="badge-top">NEXORA<small>ANALYTICS</small></div>${avatar("you", 84)}<strong id="badgeName">${p.name || "Adın"}</strong><span>Veri Stajyeri</span><i class="badge-chip"></i></div></div>
+    <div class="onboard-badge" aria-hidden="true"><div class="badge-card"><div class="badge-top">VIRELIO<small>ANALYTICS</small></div>${avatar("you", 84)}<strong id="badgeName">${p.name || "Adın"}</strong><span>Veri Stajyeri</span><i class="badge-chip"></i></div></div>
   </div>`;
 }
 function viewFirstDay() {
   return `<div class="cine" id="cine">
     <div class="cine-sky" aria-hidden="true"></div>
     <div class="cine-lobby" aria-hidden="true">
-      <div class="lobby-sign">NEXORA <small>ANALYTICS</small></div>
+      <div class="lobby-sign">VIRELIO <small>ANALYTICS</small></div>
       <div class="elevator">
         <div class="el-display"><span class="el-arrow">▲</span><b id="floorDisplay">G</b></div>
         <div class="el-frame">
@@ -242,12 +242,12 @@ function viewFirstDay() {
 function viewInbox() {
   return `<div class="firstday-cinematic-v54">
     <section class="firstday-film instant" aria-label="Maya ile ilk karşılaşma">
-      <img class="fd-shot fd-single" src="scene-firstday-clean-3.webp" alt="Maya Nexora Analytics ofisinde masanın yanında" fetchpriority="high" decoding="async">
+      <img class="fd-shot fd-single" src="scene-firstday-clean-3.webp" alt="Maya Virelio Analytics ofisinde masanın yanında" fetchpriority="high" decoding="async">
       <div class="fd-film-grain" aria-hidden="true"></div>
       <div class="fd-dialogue instant-dialogue">
         <div class="fd-speaker"><img src="char-maya-cinematic.webp" alt="Maya"><div><strong>Maya</strong><span>Analytics Manager</span></div></div>
         <div class="fd-lines">
-          <p>Günaydın ${playerName()}! Nexora'ya hoş geldin.</p>
+          <p>Günaydın ${playerName()}! Virelio'ya hoş geldin.</p>
           <p>İlk gününde seni doğrudan dashboard'un önüne bırakmayacağım. Önce problemi nasıl düşüneceğimizi birlikte görelim.</p>
           <p class="fd-last">İlk vakalarda yanındayım; ilerledikçe ipuçları azalacak ve kararların zorlaşacak.</p>
         </div>
@@ -308,7 +308,7 @@ function viewOffice() {
     ...CASES.filter(x => isDone(x.id)).slice(-2).map(x => ({ done: true, t: `Vaka ${x.num}: ${x.title}`, xp: x.xp }))
   ];
   return `<div class="office-head">
-      <div><span class="eyebrow">Nexora HQ, 8. kat, İstanbul</span><h2>${player.day}. gün, ${phase()}</h2></div>
+      <div><span class="eyebrow">Virelio HQ, 8. kat, İstanbul</span><h2>${player.day}. gün, ${phase()}</h2></div>
       <div class="live-chips"><span class="live"><i></i>Canlı</span><span>${player.completed.length} / ${CASES.length} vaka</span><span class="${qs.length ? "amber" : ""}">${qs.length} açık yan görev</span>
       ${canEndDay() ? `<button class="end-day-btn" data-action="end-day">${icon("save")}Günü bitir</button>` : ""}</div>
     </div>
@@ -322,7 +322,7 @@ function viewOffice() {
         ${QUESTS.some(q => questState(q) === "locked") ? `<p class="muted small">${QUESTS.filter(q => questState(q) === "locked").length} yan görev daha vakaları çözdükçe açılacak.</p>` : ""}
       </section>
     </div>
-    <section class="card feed"><h3>Ofis günlüğü</h3>${player.feed.length ? `<ul>${player.feed.map(f => `<li><span>${f.day}. gün</span>${f.text}</li>`).join("")}</ul>` : `<p class="muted">Nexora'daki ilk sabahın başladı. Konuşmak istersen Maya hemen yakında.</p>`}</section>`;
+    <section class="card feed"><h3>Ofis günlüğü</h3>${player.feed.length ? `<ul>${player.feed.map(f => `<li><span>${f.day}. gün</span>${f.text}</li>`).join("")}</ul>` : `<p class="muted">Virelio'daki ilk sabahın başladı. Konuşmak istersen Maya hemen yakında.</p>`}</section>`;
 }
 function reqBar(k, have, need) {
   return `<div class="req-row"><span>${SKILLS[k].name}</span><div class="req-bar"><i style="width:${Math.min(100, have / need * 100)}%;background:${SKILLS[k].color}"></i></div><b class="${have >= need ? "met" : ""}">${have} / ${need}</b></div>`;
@@ -428,7 +428,7 @@ function viewCareer() {
 function viewPortfolio() {
   const projects = CASES.filter(c => isDone(c.id)), side = QUESTS.filter(q => player.sideDone.includes(q.id));
   return `<div class="page-heading"><div><span class="eyebrow">Profesyonel profil</span><h2>Portföy</h2><p>Gerçekten tamamladığın işlerden oluşur.</p></div><span class="pill">${projects.length} proje</span></div>
-    <section class="portfolio-hero"><div class="ph-left">${avatar("you", 64)}<div><h3>${playerName()}</h3><p>${player.career}, Nexora Analytics, ${Math.max(0, player.day - 1)} iş günü</p></div></div>
+    <section class="portfolio-hero"><div class="ph-left">${avatar("you", 64)}<div><h3>${playerName()}</h3><p>${player.career}, Virelio Analytics, ${Math.max(0, player.day - 1)} iş günü</p></div></div>
       <div class="ph-stats"><div><strong data-count="${player.xp}">0</strong><span>Kariyer XP</span></div><div><strong>${projects.length}</strong><span>Vaka</span></div><div><strong>${side.length}</strong><span>Yan görev</span></div><div><strong>${player.stats.independent}</strong><span>Yardımsız adım</span></div></div></section>
     <div class="portfolio-grid">${projects.map(c => `<article class="card project"><span class="eyebrow">Vaka ${c.num}</span><h3>${c.portfolio.title}</h3><p>${c.portfolio.text}</p><div class="case-tags">${c.tags.map(t => `<span>${t}</span>`).join("")}</div></article>`).join("") ||
       `<article class="card project empty"><h3>İlk projen burada görünecek.</h3><p>Eklemek için Vaka 001'i çöz.</p><button class="primary-button small" data-action="open-case" data-id="case001">Vaka 001'i aç</button></article>`}</div>
@@ -441,7 +441,7 @@ function viewPromotion() {
     <span class="eyebrow">Kariyer güncellemesi</span>
     <div class="career-update"><span class="cu-old">${ROLES[player.chapter - 1].title}</span><span class="cu-arrow">↓</span><span class="cu-new">${PROMOTION.title}</span></div>
     <p>${player.day} iş günü, ${player.sideDone.length} yan görev ve ${fmtNum(player.xp)} XP. Maya adını ${player.chapter === 2 ? "kurul sunumu listesine" : "analist ekibinin kapısına"} çoktan yazdı.</p>
-    <div class="new-badge"><div class="badge-card gold"><div class="badge-top">NEXORA<small>ANALYTICS</small></div>${avatar("you", 84)}<strong>${playerName()}</strong><span>${PROMOTION.title}</span><i class="badge-chip"></i></div></div>
+    <div class="new-badge"><div class="badge-card gold"><div class="badge-top">VIRELIO<small>ANALYTICS</small></div>${avatar("you", 84)}<strong>${playerName()}</strong><span>${PROMOTION.title}</span><i class="badge-chip"></i></div></div>
     <div class="modal-actions center"><button class="primary-button big" data-action="end-day">Günü bitir</button><button class="ghost-button" data-nav="portfolio">Portföyü gör</button></div>
   </div>`;
 }
@@ -490,7 +490,7 @@ function viewRightPanel() {
    ===================================================================== */
 function sceneHTML(kind, m) {
   if (kind === "rain") return `<div class="scene-art rain" style="--img:url('${OFFICE_IMAGE}')"><div class="rain-layer"></div><div class="rain-layer far"></div><div class="steam-cup"><i></i><i></i><i></i></div></div>`;
-  if (kind === "laptop") return `<div class="scene-art desk-bg" style="--img:url('${OFFICE_IMAGE}')"><div class="laptop"><div class="lid"><div class="screen-in"><div class="boot">NEXORA</div>
+  if (kind === "laptop") return `<div class="scene-art desk-bg" style="--img:url('${OFFICE_IMAGE}')"><div class="laptop"><div class="lid"><div class="screen-in"><div class="boot">VIRELIO</div>
       <div class="notifs">${(m.notifications || []).map(([w, t], i) => `<div class="notif" style="--i:${i}">${avatar(w, 22)}<div><b>${PEOPLE[w].name.split(" ")[0]}</b><span>${t}</span></div></div>`).join("")}</div></div></div><div class="base"></div></div>
       <div class="unread-pill">${(m.notifications || []).length} okunmamış mesaj</div></div>`;
   if (kind === "standup") return `<div class="scene-art meeting" style="--img:url('${OFFICE_IMAGE}')"><div class="call-grid">${["maya", "alex", "zeynep", "deniz", "you"].map((w, i) => `<div class="call-tile" style="--i:${i}">${avatar(w, 64)}<span>${w === "you" ? playerName() : PEOPLE[w].name.split(" ")[0]}</span></div>`).join("")}</div><div class="call-bar"><i></i>09:15 Analytics Daily</div></div>`;
@@ -506,7 +506,7 @@ function viewMorning() {
   return `<div class="morning morning-v61">
     <div class="scene-wrap">${sceneHTML(m.scene, m)}
       <div class="scene-caption"><span class="eyebrow">${m.time}, ${weekday(player.day)}, ${player.day}. gün</span><h2>${m.title}</h2><p>${m.text}</p></div>
-      <div class="morning-focus"><span>Bugünün odağı</span><strong>${todayCase ? todayCase.title : "Nexora'da yeni bir gün"}</strong><small>${todayCase?.concept ? todayCase.concept : "Mesajlarını kontrol et, ekiple konuş ve günün kararına hazırlan."}</small></div>
+      <div class="morning-focus"><span>Bugünün odağı</span><strong>${todayCase ? todayCase.title : "Virelio'da yeni bir gün"}</strong><small>${todayCase?.concept ? todayCase.concept : "Mesajlarını kontrol et, ekiple konuş ve günün kararına hazırlan."}</small></div>
       <button class="skip-btn" data-action="skip-morning">Sahneyi atla ›</button></div>
     <div class="morning-body" data-step-body>${stepHTML(def)}</div></div>`;
 }
@@ -527,7 +527,7 @@ function viewDayEnd() {
   const qsAvail = QUESTS.filter(q => questState(q) !== "locked").length;
   return `<div class="dayend dayend-v61">
     <div class="dayend-hero" style="--img:url('${OFFICE_IMAGE}')"><div><span>${weekday(player.day)} · 18:12</span><h2>${player.day}. gün tamamlandı</h2><p>Ofis yavaşlıyor. Bugünün kararlarını kapatıp yarına ne taşıdığını gör.</p></div></div>
-    <div class="de-clock">Nexora Analytics · Gün sonu özeti</div>
+    <div class="de-clock">Virelio Analytics · Gün sonu özeti</div>
     <div class="de-grid">
       <section class="card de-report"><span class="eyebrow">Bugün</span>
         ${c ? `<div class="de-case"><span>Çözülen vaka</span><strong>${c.title}</strong></div>` : ""}
@@ -568,7 +568,7 @@ function achievementsHTML() {
 function viewChapter() {
   const ch = player.chapter, log = player.dayLog.filter(d => d.day >= CH_START[ch] && (!CH_START[ch + 1] || d.day < CH_START[ch + 1]));
   return `<div class="chapter">
-    <span class="eyebrow">${ch}. bölüm tamamlandı</span><h2>${{ 1: "Nexora'daki ilk haftan", 2: "Junior Veri Analisti olarak iki haftan", 3: "Veri Analisti olarak iki buçuk haftan" }[ch] || "Bu bölüm"}</h2>
+    <span class="eyebrow">${ch}. bölüm tamamlandı</span><h2>${{ 1: "Virelio'daki ilk haftan", 2: "Junior Veri Analisti olarak iki haftan", 3: "Veri Analisti olarak iki buçuk haftan" }[ch] || "Bu bölüm"}</h2>
     <p class="muted">${ch < ROLES.length ? `${ROLES[ch - 1].title} olarak başladın, ${ROLES[ch].title} olarak devam ediyorsun.` : `${ROLES[ch - 1].title} olarak DATA TYCOON kariyer yolculuğunu tamamladın.`}</p>
     ${PROMOTIONS[ch + 1] ? `<div class="next-chapter"><div><span class="eyebrow">Sıradaki: ${ch + 1}. bölüm, ${CAREER_MAP[ch].time}</span><h3>${ROLES[ch].title}</h3><p>${CAREER_MAP[ch].axis}</p></div><button class="primary-button big" data-action="start-chapter" data-ch="${ch + 1}">${ch + 1}. bölüme başla</button></div>`
       : ch === 8 ? `<div class="next-chapter"><div><span class="eyebrow">KARİYER TAMAMLANDI</span><h3>Veri Direktörü</h3><p>59 ana vaka boyunca veriyi okumaktan şirketin Data & AI stratejisini yönetmeye ulaştın.</p></div><button class="ghost-button" data-nav="career">Kariyer haritası</button></div>`

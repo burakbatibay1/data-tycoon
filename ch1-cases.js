@@ -16,7 +16,7 @@ const SAVE_KEY = "dataTycoon_tr_v20";
 const CHECKPOINT_KEY = "dataTycoon_tr_v20_checkpoint";
 const LEGACY_KEYS = ["dataTycoonSave_manual_v17", "dataTycoonManualSlot_v17", "dataTycoonSave_v05"];
 const XP_PER_LEVEL = 250;
-const OFFICE_IMAGE = "nexora-ofis.jpg";
+const OFFICE_IMAGE = "virelio-ofis.jpg";
 
 const SKILLS = {
   dataLiteracy:     { name: "Veri Okuryazarlığı",  color: "#5EE0B5" },
@@ -152,11 +152,11 @@ const CASES = [
       goal: "Mükerrer, eksik ve geçersiz kayıtları gözle tanımayı öğrenmek.",
       prompt: "Her CRM satırını etiketle",
       sub: "Önce soldan bir etiket seç, sonra uyduğu satırlara tıkla.",
-      think: ["Mükerrer: aynı kişi iki kez mi var? Ad yazımı, büyük harf ya da ID farklı olabilir; e-posta ve tarih aynıdır.", "Eksik ID: customer_id alanı boş mu?", "Test hesabı: e-posta şirketin kendi alan adında mı (nexora.com)?"],
+      think: ["Mükerrer: aynı kişi iki kez mi var? Ad yazımı, büyük harf ya da ID farklı olabilir; e-posta ve tarih aynıdır.", "Eksik ID: customer_id alanı boş mu?", "Test hesabı: e-posta şirketin kendi alan adında mı (virelio.com)?"],
       hints: [
         { t: "E-posta sütununu yukarıdan aşağı oku. Aynı e-posta (büyük/küçük harf farkıyla bile) iki kez geçiyorsa ikinci satır mükerrerdir. Üç tane var.", hl: ["email"] },
-        { t: "customer_id sütununda kırmızı 'null' yazan iki satır eksik ID. nexora.com ile biten iki e-posta test hesabı. Geri kalan beş satır temiz.", hl: ["customer_id"] }],
-      solve: ["Mükerrer: 3. satır (Ayşe, aynı e-posta büyük harfle), 7. satır (Can, aynı e-posta yeni ID), 12. satır (Zeynep, aynı e-posta, 'İzmir' yazımı).", "Eksik ID: 4. ve 10. satırlar.", "Test hesabı: 5. ve 8. satırlar (nexora.com).", "Temiz: 1, 2, 6, 9, 11."],
+        { t: "customer_id sütununda kırmızı 'null' yazan iki satır eksik ID. virelio.com ile biten iki e-posta test hesabı. Geri kalan beş satır temiz.", hl: ["customer_id"] }],
+      solve: ["Mükerrer: 3. satır (Ayşe, aynı e-posta büyük harfle), 7. satır (Can, aynı e-posta yeni ID), 12. satır (Zeynep, aynı e-posta, 'İzmir' yazımı).", "Eksik ID: 4. ve 10. satırlar.", "Test hesabı: 5. ve 8. satırlar (virelio.com).", "Temiz: 1, 2, 6, 9, 11."],
       takeaway: "Mükerreri ID'ye göre değil, doğal anahtara (e-posta, tarih) göre ara. Yazım farkları mükerreri gizler.",
       tags: [["ok", "Temiz"], ["dup", "Mükerrer"], ["missing", "Eksik ID"], ["test", "Test hesabı"]],
       cols: ["customer_id", "name", "email", "city", "created"],
@@ -165,10 +165,10 @@ const CASES = [
         [["C-10022", "Mehmet Kaya", "mkaya@mail.com", "Ankara", "2024-03-12"], "ok"],
         [["C-10021", "Ayse Demir", "AYSE.DEMIR@mail.com", "istanbul", "2024-03-11"], "dup"],
         [["", "Melis Arslan", "m.arslan@mail.com", "Izmir", "2024-04-02"], "missing"],
-        [["C-10035", "TEST USER", "test@nexora.com", "", "2024-04-05"], "test"],
+        [["C-10035", "TEST USER", "test@virelio.com", "", "2024-04-05"], "test"],
         [["C-10036", "Can Yılmaz", "can.yilmaz@mail.com", "Bursa", "2024-04-07"], "ok"],
         [["C-10037", "Can Yilmaz", "can.yilmaz@mail.com", "Bursa", "2024-04-07"], "dup"],
-        [["C-10040", "QA Nexora", "qa+1@nexora.com", "Istanbul", "2024-04-10"], "test"],
+        [["C-10040", "QA Virelio", "qa+1@virelio.com", "Istanbul", "2024-04-10"], "test"],
         [["C-10041", "Elif Şahin", "elif.sahin@mail.com", "Ankara", "2024-04-11"], "ok"],
         [["", "Burak Öztürk", "b.ozturk@mail.com", "Istanbul", "2024-04-15"], "missing"],
         [["C-10044", "Derya Kara", "derya.kara@mail.com", "Izmir", "2024-04-18"], "ok"],
@@ -176,7 +176,7 @@ const CASES = [
       ],
       rowHints: { dup: "Aynı kişinin (aynı e-posta, aynı tarih) iki kez geçtiği satırları ara; ID veya yazım farklı olabilir.",
                missing: "Bazı satırlarda customer_id hiç yok.",
-               test: "nexora.com adresli e-postalar şirketin kendi test/QA hesaplarıdır, müşteri değildir.",
+               test: "virelio.com adresli e-postalar şirketin kendi test/QA hesaplarıdır, müşteri değildir.",
                ok: "Sorunlu diye etiketlediğin bazı satırlar aslında temiz." } },
     { type: "choice", label: "Mutabakat",
       goal: "Bulunan sorunları sayılarla farka bağlamak (reconciliation).",
@@ -340,7 +340,7 @@ const CASES = [
 },
 {
   id: "case005", num: "005", title: "Korelasyon Tuzağı", difficulty: 3, xp: 180, after: "case004",
-  short: "Daha çok kahve makinesi olan mağazalar daha çok satıyor. Nexora 40 makine almalı mı?",
+  short: "Daha çok kahve makinesi olan mağazalar daha çok satıyor. Virelio 40 makine almalı mı?",
   tags: ["İstatistik", "Nedensellik"],
   rewards: { statistics: 15, businessThinking: 15, dataExploration: 10 },
   concept: { name: "Korelasyon nedensellik değildir", en: "correlation vs causation",

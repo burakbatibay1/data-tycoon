@@ -53,7 +53,7 @@ function startCareerFresh() {
 function rideElevator(btn) {
   btn.disabled = true;
   const cine = $("cine"), disp = $("floorDisplay");
-  const finish = () => { player.started = true; player.day = 1; addInbox("maya", "Nexora'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); };
+  const finish = () => { player.started = true; player.day = 1; addInbox("maya", "Virelio'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); };
   if (!animOn()) { finish(); return; }
   cine.classList.add("swipe");
   setTimeout(() => {
@@ -128,7 +128,7 @@ document.addEventListener("click", e => {
       player.screen = "firstday"; save(true); render(); break;
     }
     case "ride": window.DTSound?.one('elevator'); rideElevator(el); break;
-    case "skip-cine": player.started = true; player.day = 1; addInbox("maya", "Nexora'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); break;
+    case "skip-cine": player.started = true; player.day = 1; addInbox("maya", "Virelio'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); break;
     case "open-case": closeModal(); go("case", el.dataset.id); break;
     case "open-quest": openQuest(el.dataset.id); break;
     case "open-event": openEvent(el.dataset.id); break;

@@ -137,7 +137,7 @@ function viewCareer() {
   const stats = [["Çözülen vaka", player.completed.length], ["Yan görev", player.sideDone.length], ["Ofis anı", player.eventsSeen.length], ["Önizleme", player.previews.length]];
   return `<div class="page-heading"><div><span class="eyebrow">Şirkette neredeyim, sırada ne var?</span><h2>Kariyer</h2></div><span class="pill">${ch}. bölüm / 8</span></div>
     <div class="career-top">
-      <section class="card id-card">${avatar("you", 72)}<div><h3>${playerName()}</h3><span>${player.career}</span><p class="muted small">Nexora Analytics, ${player.day} iş günü</p></div>
+      <section class="card id-card">${avatar("you", 72)}<div><h3>${playerName()}</h3><span>${player.career}</span><p class="muted small">Virelio Analytics, ${player.day} iş günü</p></div>
         <ul class="cstats">${stats.map(([k, v]) => `<li><b>${v}</b><span>${k}</span></li>`).join("")}</ul></section>
       <section class="card promo-req"><span class="eyebrow">${player.promoted ? "Sıradaki terfi" : `${PROMOTION.title} terfisi`}</span>
         ${player.promoted ? `<p>${player.chapterDone && PROMOTIONS[player.chapter + 1] ? `${player.chapter + 1}. bölüme başlayınca ${ROLES[player.chapter + 1].title} terfisinin gereksinimleri burada görünecek.` : "Bir sonraki terfi yolu hazırlanıyor."}</p>` : `

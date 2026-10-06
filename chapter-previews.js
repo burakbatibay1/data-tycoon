@@ -176,7 +176,7 @@ const PREVIEWS = [
   short: "Bütçe iki projeye yetiyor. Hangileri?",
   review: { happened: "Üç yatırımdan ikisini seçip kurula gerekçelendirdin.", discovered: "Strateji kararında tek doğru yok: getiri, risk, hazırlık ve ölçülebilirlik birlikte tartılır.", habit: "Her yatırım için bir ölçüm planı ve çıkış kriteri koy.", watch: "En yüksek getiri tahmini genelde en belirsiz olandır." },
   steps: [
-    { type: "dialog", who: "ceo", cta: "Seçenekleri aç", lines: ["Kerem Yalçın, CEO: “Kurul yapay zekâya 2 milyon avro ayırdı. Üç teklif var, ikisine yetiyor.”", "“Önümüzdeki üç yıl için hangisi? Gerekçeni duymak istiyorum.”"] },
+    { type: "dialog", who: "ceo", cta: "Seçenekleri aç", lines: ["Andrew, CEO: “Kurul yapay zekâya 2 milyon avro ayırdı. Üç teklif var, ikisine yetiyor.”", "“Önümüzdeki üç yıl için hangisi? Gerekçeni duymak istiyorum.”"] },
     { type: "builder", label: "Portföy", prompt: "Bütçeyi aşmadan iki yatırım seç", goal: "Yatırımları getiri, risk ve hazırlığa göre birlikte değerlendirmek.",
       fields: [{ key: "pick", label: "Yatırımlar", type: "check", options: [["fc", "Tahminleme platformu (0,6 Mn €)"], ["rec", "Öneri motoru (1,1 Mn €)"], ["gen", "Üretken YZ asistanı (0,9 Mn €)"]] }],
       run: "Kurula sun",

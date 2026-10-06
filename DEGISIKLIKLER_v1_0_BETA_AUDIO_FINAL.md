@@ -1,7 +1,9 @@
-# DATA TYCOON v1.0 Beta — Final Office Audio Fix
+# DATA TYCOON v1.0 Beta — Final Office Audio
 
-- Kök neden: audio-manager gündüz ofis sesi için `office-day.mp3` kullanıyordu; yalnızca WAV değiştirmek çalışan sesi değiştirmiyordu.
-- Yeni gündüz ofis dosyası: `office-day-final-v1.mp3`.
-- Yeni dosya adı kullanılarak tarayıcı cache'inde kalan eski `office-day.mp3` de bypass edildi.
-- 90 sn doğal loop: çok düşük oda/HVAC tonu, seyrek gerçek klavye kümeleri (~8.5s, ~39.5s, ~70.5s).
-- UI click sesi önceki beta davranışındaki gibi kapalı kalır; anlamlı olay SFX'leri korunur.
+- Sürekli yağmur/HVAC/noise benzeri ofis tabanı kaldırıldı.
+- Gündüz ofis sesi 90 saniyelik sessizlik ağırlıklı döngü: yalnızca ~9., 41. ve 73. saniyelerde kısa gerçek klavye kümeleri.
+- Audio Manager yalnızca hem oyun state'i hem de gerçekten render edilen ekran `office` olduğunda ambience başlatır.
+- Landing/title, morning, day-end, leave, Career, Cases, Skill Tree, Portfolio, Notebook ve Settings ekranlarında ofis ambience'i yoktur.
+- Açılışta görülen 1–2 saniyelik ofis sesi sızıntısı engellendi.
+- Hava sesleri ofis ambience'ine otomatik katman olarak eklenmez.
+- Anlamlı SFX'ler korunmuştur.

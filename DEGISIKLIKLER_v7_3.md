@@ -2,7 +2,7 @@
 
 v6.15 üzerine v7.0–v7.3 kapsamı tek pakette birleştirildi (ses hariç).
 
-- Nexora Health: Business Impact, Data Trust, Model Reliability, Team Health, AI Risk.
+- Virelio Health: Business Impact, Data Trust, Model Reliability, Team Health, AI Risk.
 - Dynamic Interruptions artık uzun vadeli şirket etkisi ve ilişki hafızası bırakıyor.
 - Maya, Deniz, Buse, Alex, Zeynep ve CEO için ayrı çalışma ilişkisi durumu.
 - Kariyer ekranında şirket sağlığı + ilişkiler + son performance review.

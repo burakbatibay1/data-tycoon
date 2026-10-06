@@ -5,7 +5,7 @@
    ===================================================================== */
 CASES.forEach(c => { c.kind = "case"; });
 QUESTS.forEach(q => { q.kind = "quest"; q.modal = true; });
-PEOPLE.ceo = { name: "Kerem Yalçın", role: "CEO", skin: "#E6B48C", hair: "#6E6E78", shirt: "#2F3B5C", style: "short" };
+PEOPLE.ceo = { name: "Andrew", role: "CEO", skin: "#E6B48C", hair: "#6E6E78", shirt: "#2F3B5C", style: "short" };
 PEOPLE.buse = { name: "Buse Yılmaz", role: "Yeni stajyer", skin: "#F0C8A2", hair: "#3B2A1E", shirt: "#7BD3F7", style: "short" };
 QUEST_BY_ID.sq_inbox.hot = "phone";
 HOTSPOTS.phone = { label: "Telefon", icon: "mail", ambient: ["Telefonunda yeni bir talep yok."] };
@@ -36,7 +36,7 @@ const NEW_QUESTS = [
   rewards: { visualization: 6, dataLiteracy: 4 }, lesson: "Aynı grafikte farklı toplama düzeyleri (ay ve çeyrek) karıştırılırsa sahte sıçramalar oluşur. Her çubuk aynı birimi göstermeli.",
   steps: [
     { type: "dialog", who: "ceo", cta: "Grafiğe bak",
-      lines: ["WhatsApp'tan bir ekran görüntüsü geliyor. Gönderen: Kerem Yalçın, CEO.", "“Burada satışlar neden uçmuş? Yönetim kuruluna bunu göstereceğim, doğru mu?”"] },
+      lines: ["WhatsApp'tan bir ekran görüntüsü geliyor. Gönderen: Andrew, CEO.", "“Burada satışlar neden uçmuş? Yönetim kuruluna bunu göstereceğim, doğru mu?”"] },
     { type: "pick", label: "Yanıltıcı noktayı bul", correct: "q3",
       goal: "Bir grafikte birim ve toplama düzeyi tutarsızlığını yakalamak.",
       prompt: "Grafikteki yanıltıcı çubuğa tıkla.",
@@ -368,7 +368,7 @@ const TRUST_LEVELS = {
 };
 function trustLevel(id) { const v = (player.trust || {})[id] || 0; return v >= 7 ? 3 : v >= 4 ? 2 : v >= 2 ? 1 : 0; }
 const ACHIEVEMENTS = {
-  first_day:   { t: "İlk gün", d: "Nexora'daki ilk gününü tamamladın." },
+  first_day:   { t: "İlk gün", d: "Virelio'daki ilk gününü tamamladın." },
   independent: { t: "Kendi başına", d: "Bir vakayı hiç yardım almadan çözdün." },
   caffeine:    { t: "Kafeinle çalışan analitik", d: "Bir günde kahve makinesine 10 kez gittin." },
   helper:      { t: "Ofisin yardımcısı", d: "5 yan görev tamamladın." },

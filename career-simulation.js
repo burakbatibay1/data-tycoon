@@ -99,7 +99,7 @@
     const people=['maya','buse','deniz','alex','zeynep','ceo'].map(k=>`<div class="sim-rel">${avatar(k,34)}<div><b>${PEOPLE[k]?PEOPLE[k].name.split(' ')[0]:k}</b><span>${REL_TEXT[k][relLevel(k)]}</span></div></div>`).join('');
     const review=player.lastReview||player.performanceReviews[player.chapter-1];
     const reviewHtml=review?`<section class="card performance-card"><span class="eyebrow">Son performance review</span><h3>${review.strongest} güçlü tarafın</h3><p>Gelişim odağı: <b>${review.development}</b></p><div class="review-bars">${Object.entries(review.scores).map(([k,v])=>`<div><span>${k}</span><i><em style="width:${v}%"></em></i><b>${v}</b></div>`).join('')}</div></section>`:'';
-    return `<div class="career-sim-grid"><section class="card company-health"><span class="eyebrow">Nexora Health</span><h3>Kararların şirkette iz bırakıyor</h3>${healthCards}</section><section class="card relationship-state"><span class="eyebrow">Çalışma ilişkileri</span><h3>İnsanlar kararlarını hatırlıyor</h3>${people}</section></div>${reviewHtml}${base}`;
+    return `<div class="career-sim-grid"><section class="card company-health"><span class="eyebrow">Virelio Health</span><h3>Kararların şirkette iz bırakıyor</h3>${healthCards}</section><section class="card relationship-state"><span class="eyebrow">Çalışma ilişkileri</span><h3>İnsanlar kararlarını hatırlıyor</h3>${people}</section></div>${reviewHtml}${base}`;
   };
 
   const oldPromotion=viewPromotion;
@@ -113,7 +113,7 @@
   viewRightPanel=function(){
     const base=oldRight();
     const avg=Math.round((player.companyHealth.businessImpact+player.companyHealth.dataTrust+player.companyHealth.modelReliability+player.companyHealth.teamHealth+(100-player.companyHealth.aiRisk))/5);
-    return `<section class="rp-block compact-health"><div class="rp-head"><span>Nexora Health</span><b>${avg}</b></div><div class="mini-health"><i style="width:${avg}%"></i></div><p class="muted small">Kararlarının şirket üzerindeki birikimli izi.</p></section>${base}`;
+    return `<section class="rp-block compact-health"><div class="rp-head"><span>Virelio Health</span><b>${avg}</b></div><div class="mini-health"><i style="width:${avg}%"></i></div><p class="muted small">Kararlarının şirket üzerindeki birikimli izi.</p></section>${base}`;
   };
 
   /* Buse arc: existing interruptions become a visible mentoring story without adding grind. */

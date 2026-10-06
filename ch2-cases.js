@@ -244,7 +244,7 @@ const CH2_CASES = [
   portfolio: { title: "CEO dashboard'u", text: "12 metrikten büyüme, müşteri, kârlılık ve risk eksenlerini kapsayan 4 KPI'lık bir yönetici dashboard'u tasarladım." },
   review: { happened: "12 metrikten dördünü seçip tek ekranlık bir yönetici görünümü kurdun.", discovered: "Gösteriş metrikleri (takipçi, sayfa görüntüleme) karar verdirmez; dengeli bir set büyüme, müşteri, kârlılık ve riski kapsar.", habit: "Her KPI için sor: bu değişirse CEO ne yapar?", watch: "Az metrik, bağlamsız metrik değildir: hedef ve önceki dönem yanında olmalı." },
   steps: [
-    { type: "dialog", who: "ceo", cta: "Metriklere bak", lines: ["Kerem Yalçın, CEO: “Şu anki dashboard'da 12 grafik var, hiçbirine bakmıyorum.”", "“Bana sabah kahvemle bakacağım 4 metrik ver. Fazlası değil.”"] },
+    { type: "dialog", who: "ceo", cta: "Metriklere bak", lines: ["Andrew, CEO: “Şu anki dashboard'da 12 grafik var, hiçbirine bakmıyorum.”", "“Bana sabah kahvemle bakacağım 4 metrik ver. Fazlası değil.”"] },
     { type: "builder", label: "Seç", prompt: "CEO için tam 4 KPI seç", goal: "Karar verdiren dengeli bir KPI seti kurmak.",
       think: ["Hangi metrik değişirse CEO bir şey yapar?", "Büyüme, müşteri, kârlılık ve risk kapsandı mı?"], hints: [{ t: "Takipçi ve sayfa görüntüleme 'gösteriş metriği'dir; tek başına karar verdirmez." }],
       fields: [{ key: "k", label: "Metrikler", type: "check", options: [["rev", "Aylık ciro (büyüme)"], ["buyers", "Aktif alıcı (müşteri)"], ["margin", "Brüt kâr marjı (kârlılık)"], ["churn", "Müşteri kaybı (risk)"], ["pv", "Sayfa görüntüleme"], ["followers", "Sosyal medya takipçisi"], ["tickets", "Destek talebi sayısı"], ["emails", "Gönderilen e-posta"], ["aov", "Ortalama sepet"], ["nps", "NPS"], ["stock", "Stok devir hızı"], ["meetings", "Satış toplantısı sayısı"]] }],
@@ -252,15 +252,15 @@ const CH2_CASES = [
       visual: d => {
         const L = { rev: ["Aylık ciro", "4,45 Mn ₺", "+%6"], buyers: ["Aktif alıcı", "14.900", "+%2"], margin: ["Brüt marj", "%38", "−1 pp"], churn: ["Müşteri kaybı", "%3,2", "+0,1 pp"], pv: ["Sayfa görüntüleme", "1,2 Mn", "+%30"], followers: ["Takipçi", "48 bin", "+%12"], tickets: ["Destek talebi", "2.140", "−%4"], emails: ["E-posta", "310 bin", "+%40"], aov: ["Ortalama sepet", "298 ₺", "+%4"], nps: ["NPS", "41", "+2"], stock: ["Stok devri", "6,1", "0"], meetings: ["Toplantı", "212", "+%8"] };
         const sel = d.k || [];
-        return `<div class="dash-mock"><div class="dash-top">Nexora, CEO görünümü <span>${sel.length}/4</span></div><div class="dash-grid">${sel.slice(0, 6).map(k => `<div class="dash-tile pop-in"><span>${L[k][0]}</span><b>${L[k][1]}</b><em>${L[k][2]} geçen aya göre</em></div>`).join("") || `<p class="muted">Soldan metrik seç.</p>`}</div></div>`;
+        return `<div class="dash-mock"><div class="dash-top">Virelio, CEO görünümü <span>${sel.length}/4</span></div><div class="dash-grid">${sel.slice(0, 6).map(k => `<div class="dash-tile pop-in"><span>${L[k][0]}</span><b>${L[k][1]}</b><em>${L[k][2]} geçen aya göre</em></div>`).join("") || `<p class="muted">Soldan metrik seç.</p>`}</div></div>`;
       },
       check: d => {
         const s = d.k || [], vanity = s.filter(k => ["pv", "followers", "emails", "meetings"].includes(k));
         if (s.length !== 4) return { ok: false, fb: `CEO tam 4 metrik istedi; şu an ${s.length}.` };
-        if (vanity.length) return { ok: false, fb: "Kerem: “Takipçi ya da e-posta sayısı artarsa ne yapacağım?” Gösteriş metrikleri karar verdirmez." };
+        if (vanity.length) return { ok: false, fb: "Andrew: “Takipçi ya da e-posta sayısı artarsa ne yapacağım?” Gösteriş metrikleri karar verdirmez." };
         const axes = [s.includes("rev"), s.includes("buyers") || s.includes("nps"), s.includes("margin") || s.includes("aov"), s.includes("churn") || s.includes("tickets")];
         if (axes.filter(Boolean).length < 4) return { ok: false, fb: "Dört metrik de seçilmiş ama bir eksen eksik. Büyüme, müşteri, kârlılık ve risk kapsandı mı?" };
-        return { ok: true, title: "Dengeli bir set", fb: "Büyüme, müşteri, kârlılık ve risk tek ekranda. Kerem: “İşte buna bakarım.”" };
+        return { ok: true, title: "Dengeli bir set", fb: "Büyüme, müşteri, kârlılık ve risk tek ekranda. Andrew: “İşte buna bakarım.”" };
       } },
     { type: "choice", label: "Göster", prompt: "Aylık ciro kutusunda hangi görsel olmalı?", goal: "Bir KPI'ı bağlamla göstermek.",
       options: [{ label: "Sadece büyük sayı: 4,45 Mn ₺", fb: "Bağlamsız sayı: iyi mi kötü mü?" }, { label: "Son 12 ayın çizgisi + geçen yılın aynı dönemi + hedef çizgisi", correct: true, fb: "Trend, mevsimsellik ve hedef bir arada." }, { label: "Kategorilere göre pasta", fb: "Trendi göstermez ve CEO'nun sorusu bu değil." }] },
@@ -281,7 +281,7 @@ const CH2_CASES = [
     { type: "pick", label: "Anomali", correct: "margin", prompt: "Kurulun en çok dikkat etmesi gereken metriğe tıkla.", goal: "Belirsiz bir talepte önceliği kendin belirlemek.",
       hints: [{ t: "Hatırlatma: büyüklük, yön ve beklenen aralığın dışına çıkma birlikte değerlendirilir." }],
       picks: { margin: "Brüt marj 1 puan düştü: 4,45 Mn ₺ cironun %1'i, ayda ~45 bin ₺ ve normal aralığının dışında.", rev: "Ciro beklenen aralıkta büyüyor.", buyers: "Aktif alıcı +%2, normal aralıkta.", churn: "Müşteri kaybı 0,1 puan oynamış; gürültü düzeyinde.", other: "Bu metrik beklenen aralıkta." },
-      visual: (d, id) => `<div class="dash-mock"><div class="dash-top">Nexora, CEO görünümü</div><div class="dash-grid">${[["rev", "Aylık ciro", "4,45 Mn ₺", "+%6", "beklenen: +%4–8"], ["buyers", "Aktif alıcı", "14.900", "+%2", "beklenen: 0–3"], ["margin", "Brüt marj", "%38", "−1,0 pp", "beklenen: ±0,3"], ["churn", "Müşteri kaybı", "%3,2", "+0,1 pp", "beklenen: ±0,3"]]
+      visual: (d, id) => `<div class="dash-mock"><div class="dash-top">Virelio, CEO görünümü</div><div class="dash-grid">${[["rev", "Aylık ciro", "4,45 Mn ₺", "+%6", "beklenen: +%4–8"], ["buyers", "Aktif alıcı", "14.900", "+%2", "beklenen: 0–3"], ["margin", "Brüt marj", "%38", "−1,0 pp", "beklenen: ±0,3"], ["churn", "Müşteri kaybı", "%3,2", "+0,1 pp", "beklenen: ±0,3"]]
         .map(([k, t, v, c, e]) => `<div class="dash-tile pickable" ${pickAttrs(id, k)}><span>${t}</span><b>${v}</b><em>${c} geçen aya göre</em><small>${e}</small></div>`).join("")}</div></div>` },
     { type: "builder", label: "Sorgula", prompt: "Marj düşüşünün kaynağını sorgula", goal: "Anomaliyi uygun boyutta kırmak.",
       hints: [{ t: "Hatırlatma, Vaka 010: toplamı anlamlı bir boyuta göre kır." }],
@@ -389,7 +389,7 @@ Object.assign(MORNINGS, {
     steps: [{ type: "choice", label: "Stand-up", who: "maya", prompt: "Maya: “Kampanya testi ne dedi?”", ...STANDUP_GUIDE, hints: [{ t: "Etki, aralık, anlamı, sonraki adım." }],
       options: [{ label: "Kampanya kazandı, +0,6 puan.", fb: "Aralık sıfırı içeriyordu." }, { label: "+0,6 puan ama aralık −1,6 ile +2,8; bu örneklemle ayırt edemiyoruz. Grup başına ~20 bin kullanıcıyla yeniden planlıyoruz.", correct: true, fb: "Maya: “Mükemmel. Belirsizliği söylemek güç ister.”" }] }] },
   14: { scene: "promo", time: "08:45", title: "Terfi günü", text: "Maya masana geliyor. Elinde bir çıktı: CEO dashboard'u.",
-    steps: [{ type: "dialog", who: "maya", cta: "Dinliyorum", lines: ["Üç aydır neredeyse hiç yönlendirme yapmadım. Fark ettin mi?", "Bugün hiç yapmayacağım. Ama önce dünkü dashboard'u Kerem'e nasıl özetlediğini duymak istiyorum."] },
+    steps: [{ type: "dialog", who: "maya", cta: "Dinliyorum", lines: ["Üç aydır neredeyse hiç yönlendirme yapmadım. Fark ettin mi?", "Bugün hiç yapmayacağım. Ama önce dünkü dashboard'u Andrew'e nasıl özetlediğini duymak istiyorum."] },
       { type: "choice", label: "Son özet", who: "maya", prompt: "Dashboard'u CEO'ya nasıl özetledin?", ...STANDUP_GUIDE, hints: [{ t: "Kaç metrik, hangi eksenler, neden?" }],
         options: [{ label: "12 metrik yerine 4 metrik koydum.", fb: "Ne yaptığını söylüyor, neden yaptığını değil." }, { label: "Büyüme, müşteri, kârlılık ve riski kapsayan 4 KPI; her biri hedef ve geçen yılla birlikte, gösteriş metrikleri çıkarıldı.", correct: true, fb: "Maya: “Tamam. Bugün dashboard'a sen bakacaksın.”" }] }] }
 });
@@ -402,7 +402,7 @@ const CH2_EVENTS = [
       options: [{ label: "Bekleyelim, birazdan biter", fb: "Herkes beklemeye devam eder." }, { label: "Sorguyu durdurup tarih filtresi ve gerekli sütunlarla yeniden yazarım; önce küçük bir örnekte denerim", correct: true, fb: "Deniz: “Ambar nbuses aldı. Teşekkürler!”" }, { label: "Gece çalıştırırım", fb: "Sorun zamanlama değil, gereksiz tarama." }] }] },
   { id: "ev_onemore", who: "zeynep", days: [9, 14], notify: "Dashboard'a bir metrik daha?", title: "Bir metrik daha", 
     steps: [{ type: "reply", who: "zeynep", prompt: "“CEO dashboard'una sosyal medya takipçisini de ekleyebilir miyiz? Pazarlama çok istiyor.”",
-      options: [{ label: "“CEO bunu görünce ne karar verecek? Yoksa pazarlama dashboard'unda kalsın.”", reply: "Zeynep: “Haklısın… Pazarlama panosuna koyalım.”", trust: { zeynep: 1 } }, { label: "“Tamam, ekleyelim.”", reply: "Dashboard 5 metriğe çıktı. Kerem bir hafta sonra 'bu ne?' diye sordu.", trust: {} }, { label: "“Hayır.”", reply: "Zeynep biraz bozuldu. Belki gerekçeyi de söylemek iyi olurdu.", trust: {} }] }] },
+      options: [{ label: "“CEO bunu görünce ne karar verecek? Yoksa pazarlama dashboard'unda kalsın.”", reply: "Zeynep: “Haklısın… Pazarlama panosuna koyalım.”", trust: { zeynep: 1 } }, { label: "“Tamam, ekleyelim.”", reply: "Dashboard 5 metriğe çıktı. Andrew bir hafta sonra 'bu ne?' diye sordu.", trust: {} }, { label: "“Hayır.”", reply: "Zeynep biraz bozuldu. Belki gerekçeyi de söylemek iyi olurdu.", trust: {} }] }] },
   { id: "ev_access", who: "alex", days: [8, 14], notify: "Müşteri tablosuna tam erişim ister misin?", title: "Erişim isteği", xp: 15, rewards: { businessThinking: 2 },
     steps: [{ type: "choice", who: "alex", prompt: "“İşini hızlandırmak için sana müşteri tablosunun tamamına (ad, telefon, adres dahil) erişim açabilirim. İster misin?”", goal: "En az yetki ilkesini uygulamak.", hints: [{ t: "Analizlerinde kişisel alanlara ihtiyacın var mı?" }],
       options: [{ label: "Evet, ne kadar çok o kadar iyi", fb: "İhtiyacın olmayan kişisel veri, sadece risk demek." }, { label: "Sadece analiz için gereken sütunlara, kişisel alanlar maskelenmiş erişim yeter", correct: true, fb: "Alex: “En az yetki. Güvenlik ekibi seni sevecek.”" }] }] },
@@ -430,7 +430,7 @@ Object.assign(AFTER_CASE, {
   case009: "Metrik kataloğuna iki yeni kart eklendi. Burak'ın çeyrek sonu raporuna yarın bir göz at.",
   case010: "Satış ekibi kurumsal hesapları arıyor. Yarın belirsizlik üzerine çalışacağız.",
   case011: "Zeynep A/B testi istiyor. Yarın ilk deneyini planlayacaksın.",
-  case012: "Belirsizliği dürüstçe söyledin. Yarın Kerem için dashboard'u yeniden kuruyoruz.",
-  case013: "Kerem dashboard'u sevdi. Becerilerin hazır olduğunda yarın terfi vakan masanda.",
+  case012: "Belirsizliği dürüstçe söyledin. Yarın Andrew için dashboard'u yeniden kuruyoruz.",
+  case013: "Andrew dashboard'u sevdi. Becerilerin hazır olduğunda yarın terfi vakan masanda.",
   case014: "Tebrikler, Veri Analisti. Toplantı odasına gelir misin?"
 });

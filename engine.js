@@ -198,7 +198,7 @@ function dialogHTML(def, pr, st) {
   return `<div class="dialog-step ${cinematic ? "cinematic-encounter living-encounter paced-encounter" : ""}" data-dialog data-line="${lineIndex}">
     ${hero}${cinematic ? "" : speakerLine(st.who)}
     <div class="bubbles ${cinematic && isHumanSpeaker(st.who)?"conversation-bubbles":""}">
-      ${cinematic && person ? `<div class="conversation-speaker"><span>${person.name}</span><small>${person.role||"Nexora Analytics"}</small></div>` : ""}
+      ${cinematic && person ? `<div class="conversation-speaker"><span>${person.name}</span><small>${person.role||"Virelio Analytics"}</small></div>` : ""}
       ${visibleLines.map(l => `<div class="conversation-line ready"><p class="bubble shown">${l}</p></div>`).join("")}
       ${cinematic ? `<div class="conversation-progress" aria-label="Konuşma ilerlemesi">${lines.map((_,i)=>`<i class="${i<=lineIndex?'on':''}"></i>`).join('')}</div>` : ""}
     </div>

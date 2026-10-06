@@ -11,11 +11,11 @@
    - Hava sürekliliği: sabah yağmur sahnesi ya da pencereden görülen yağmur, o gün ofiste hafif yağmur katmanı olarak sürer.
    - Efekt çalınca ortam kısa süre kısılır (ducking); modal açıkken ortam geri çekilir.
    - file:// üzerinden de çalışır (HTMLAudio; fetch/WebAudio gerekmez). */
-const DT_AUDIO_KEY = "dataTycoonAudioV75";
+const DT_AUDIO_KEY = "dataTycoonAudioV10BetaLiving";
 window.DTSound = {
   cfg: { enabled: true, master: 0.8, ambience: 0.85, sfx: 0.7, music: 0.6 },
   files: {
-    officeDay: "office-day-final-v1.mp3", officeNight: "office-night.mp3", rain: "rain-window.mp3", wind: "wind-window.mp3",
+    officeDay: "office-day-living-v6.mp3", officeNight: "office-night.mp3", rain: "rain-window.mp3", wind: "wind-window.mp3",
     notification: "notification.mp3", click: "click.mp3", success: "success.mp3", warning: "warning.mp3",
     elevator: "elevator-ding.mp3", promotion: "promotion.mp3", incident: "incident.mp3"
   },
@@ -51,7 +51,7 @@ window.DTSound = {
     if (!name) return;
     for (let i = 0; i < 2; i++) { const a = new Audio(this.files[name]); a.preload = "auto"; a.volume = 0; L.els.push(a); }
     const first = L.els[0];   // her seferinde aynı noktadan başlamasın
-    first.addEventListener("loadedmetadata", () => { try { first.currentTime = Math.random() * Math.max(0, first.duration - 10); } catch (e) {} }, { once: true });
+    /* Office ambience starts from the beginning: silence first, then sparse work sounds. */
   },
   _drive(L, g) {
     L.level += (L.target - L.level) * 0.22; if (Math.abs(L.target - L.level) < 0.002) L.level = L.target;   // ~0,8 sn yumuşak geçiş
@@ -81,22 +81,18 @@ window.DTSound = {
   },
   scene() {
     const p = this._player();
-    if (!p || !p.started || !this.unlocked || !this.cfg.enabled || document.hidden) return { bed: null, wx: null };
-    const day = p.day, s = p.screen, modal = document.getElementById("modal")?.classList.contains("visible");
+    // Ambience is allowed ONLY when the actually rendered screen is Office.
+    // This also prevents the 1–2 second sound leak while the title/landing screen is visible.
+    const renderedScreen = document.body?.dataset?.screen || "";
+    if (!p || !p.started || !this.unlocked || !this.cfg.enabled || document.hidden ||
+        p.screen !== "office" || renderedScreen !== "office") return { bed: null, wx: null };
+    const modal = document.getElementById("modal")?.classList.contains("visible");
     const windowModal = modal && !!document.querySelector("#modalCard .window-view-photo");
-    const todayWx = this.dayWeather && this.dayWeather.day === day ? this.dayWeather.kind : "none";
     const night = p.dayPhase === "after";
-    if (s === "office") return {
+    return {
       bed: { name: night ? "officeNight" : "officeDay", lvl: modal && !windowModal ? 0.55 : 1 },
-      wx: todayWx !== "none" ? { name: todayWx, lvl: windowModal ? 1 : 0.45 } : null };
-    if (s === "morning") {
-      let scn = ""; try { scn = (typeof MORNING_DEFS !== "undefined" && MORNING_DEFS["morning" + day]?.scene) || ""; } catch (e) {}
-      if (scn === "rain") { this.dayWeather = { day, kind: "rain" }; return { bed: { name: "officeDay", lvl: 0.5 }, wx: { name: "rain", lvl: 1 } }; }
-      return { bed: { name: "officeDay", lvl: 0.5 }, wx: todayWx !== "none" ? { name: todayWx, lvl: 0.6 } : null };
-    }
-    if (s === "dayend") return { bed: { name: "officeNight", lvl: 0.55 }, wx: todayWx !== "none" ? { name: todayWx, lvl: 0.35 } : null };
-    if (s === "leave") return { bed: { name: "officeNight", lvl: 0.35 }, wx: null };
-    return { bed: null, wx: null };   // vaka, ağaç, kariyer vb.: odak için sessiz
+      wx: null
+    };
   },
   tick() {
     const sc = this.scene();
