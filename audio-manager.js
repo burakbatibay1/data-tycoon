@@ -21,7 +21,7 @@ window.DTSound = {
   },
   LOOPS: ["officeDay", "officeNight", "rain", "wind"],
   gains: { officeDay: 0.9, officeNight: 0.85, rain: 0.75, wind: 0.6 },   // dosyalar -24…-30 dBFS RMS'e göre dengelendi
-  XF: 2.5, unlocked: false, layers: {}, sfxCache: {}, duck: 1, duckUntil: 0, dayWeather: null, _timer: null,
+  XF: 2.5, unlocked: false, armed: false, layers: {}, sfxCache: {}, duck: 1, duckUntil: 0, dayWeather: null, _timer: null,
 
   init() {
     try { Object.assign(this.cfg, JSON.parse(localStorage.getItem(DT_AUDIO_KEY) || "{}")); } catch (e) {}
@@ -34,6 +34,15 @@ window.DTSound = {
   save() { try { localStorage.setItem(DT_AUDIO_KEY, JSON.stringify(this.cfg)); } catch (e) {} },
   vol(kind) { return this.cfg.enabled ? Math.max(0, Math.min(1, this.cfg.master * (this.cfg[kind] ?? 1))) : 0; },
   _player() { try { return typeof player !== "undefined" ? player : null; } catch (e) { return null; } },
+
+  arm() {
+    this.armed = true;
+    this.tick();
+  },
+  disarm() {
+    this.armed = false;
+    this.tick();
+  },
 
   unlock() {
     if (this.unlocked) return;
@@ -84,7 +93,7 @@ window.DTSound = {
     // Ambience is allowed ONLY when the actually rendered screen is Office.
     // This also prevents the 1–2 second sound leak while the title/landing screen is visible.
     const renderedScreen = document.body?.dataset?.screen || "";
-    if (!p || !p.started || !this.unlocked || !this.cfg.enabled || document.hidden ||
+    if (!this.armed || !p || !p.started || !this.unlocked || !this.cfg.enabled || document.hidden ||
         p.screen !== "office" || renderedScreen !== "office") return { bed: null, wx: null };
     const modal = document.getElementById("modal")?.classList.contains("visible");
     const windowModal = modal && !!document.querySelector("#modalCard .window-view-photo");
@@ -128,7 +137,7 @@ window.DTSound = {
   set(k, v) { this.cfg[k] = v; this.save(); this.tick(); },
   state() {   // QA ve hata ayıklama için
     const d = L => ({ name: L.name, level: +L.level.toFixed(3), playing: L.els.some(e => !e.paused), vol: L.els.map(e => +e.volume.toFixed(3)) });
-    return { unlocked: this.unlocked, screen: this._player()?.screen, bed: d(this.layers.bed), wx: d(this.layers.wx), dayWeather: this.dayWeather };
+    return { unlocked: this.unlocked, armed: this.armed, screen: this._player()?.screen, bed: d(this.layers.bed), wx: d(this.layers.wx), dayWeather: this.dayWeather };
   }
 };
 window.DTSound.init();

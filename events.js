@@ -45,6 +45,7 @@ function onHot(key) {
 }
 function startCareerFresh() {
   showTitle = false;
+  window.DTSound?.disarm();
   try { localStorage.removeItem(SAVE_KEY); localStorage.removeItem(CHECKPOINT_KEY); } catch (e) { /* yok say */ }
   const anim = player.profile.animations;
   player = freshPlayer(); player.profile.animations = anim; player.screen = "profile"; save(true); closeModal(); render();
@@ -53,7 +54,7 @@ function startCareerFresh() {
 function rideElevator(btn) {
   btn.disabled = true;
   const cine = $("cine"), disp = $("floorDisplay");
-  const finish = () => { player.started = true; player.day = 1; addInbox("maya", "Virelio'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); };
+  const finish = () => { player.started = true; player.day = 1; window.DTSound?.arm(); addInbox("maya", "Virelio'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); };
   if (!animOn()) { finish(); return; }
   cine.classList.add("swipe");
   setTimeout(() => {
@@ -86,6 +87,7 @@ document.addEventListener("click", e => {
   switch (el.dataset.action) {
     case "continue": {
       showTitle = false;
+      window.DTSound?.arm();
       player = loadPlayer();
       // İlk gün onboarding kaydı localhost/GitHub Pages origininde yarım kaldıysa
       // oyuncuyu doğrudan Maya/inbox sahnesine atlama. Doğru açılış akışına dön:
