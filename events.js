@@ -89,23 +89,9 @@ document.addEventListener("click", e => {
       showTitle = false;
       window.DTSound?.arm();
       player = loadPlayer();
-      // İlk gün onboarding kaydı localhost/GitHub Pages origininde yarım kaldıysa
-      // oyuncuyu doğrudan Maya/inbox sahnesine atlama. Doğru açılış akışına dön:
-      // Welcome → Profil (yeni kariyer) → Lobi/Asansör → Maya → Vaka 001.
-      const noCaseProgress = !player.completed.length && !Object.keys(player.progress || {}).some(id => {
-        const pr = player.progress[id];
-        return pr && ((pr.step || 0) > 0 || pr.done);
-      });
-      const pristineFirstDay = player.started && player.day === 1 && player.xp === 0 && noCaseProgress;
-      if (pristineFirstDay && ["inbox", "office"].includes(player.screen)) {
-        player.started = false;
-        player.screen = "firstday";
-        player.dayPhase = "work";
-        save(true);
-      } else if (player.started && PRE_START.includes(player.screen)) {
-        // Eski sürümden kalmış tutarsız pre-start state'ini güvenli biçimde ofise taşı.
-        player.screen = "office";
-      }
+      // Devam eden kariyerde onboarding/asansör ASLA tekrar oynatılmaz.
+      // Eski sürümden kalmış tutarsız bir pre-start ekranı varsa güvenli biçimde ofise taşı.
+      if (player.started && PRE_START.includes(player.screen)) player.screen = "office";
       render();
       break;
     }
@@ -130,7 +116,7 @@ document.addEventListener("click", e => {
       player.screen = "firstday"; save(true); render(); break;
     }
     case "ride": window.DTSound?.one('elevator'); rideElevator(el); break;
-    case "skip-cine": player.started = true; player.day = 1; addInbox("maya", "Virelio'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); break;
+    case "skip-cine": player.started = true; player.day = 1; window.DTSound?.arm(); addInbox("maya", "Virelio'ya hoş geldin! İlk vakan seni bekliyor."); go("inbox"); break;
     case "open-case": closeModal(); go("case", el.dataset.id); break;
     case "open-quest": openQuest(el.dataset.id); break;
     case "open-event": openEvent(el.dataset.id); break;

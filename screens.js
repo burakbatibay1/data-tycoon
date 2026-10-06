@@ -188,7 +188,7 @@ function viewWelcome() {
     <div class="launch-bg" aria-hidden="true"><img src="${OFFICE_IMAGE}" alt=""></div>
     <div class="launch-copy">
       <span class="eyebrow">DATA TYCOON · VIRELIO ANALYTICS</span>
-      <h2>Start as an intern.<br>Become a real data scientist.</h2>
+      <h2>Stajyer olarak başla.<br>Gerçek bir veri bilimci ol.</h2>
       <p>Gerçek şirket problemleriyle veri bilimini öğren. Veriyi keşfet, SQL ve Python kullan, deney tasarla, modeller geliştir ve kararlarının sonuçlarını gör. Stajyerlikten Veri Direktörlüğüne uzanan kariyerini inşa et.</p>
       <div class="launch-beta"><span>PUBLIC BETA</span><small>59 vaka · SQL · Python · İstatistik · ML · GenAI · Liderlik</small></div>
       <div class="launch-actions">
