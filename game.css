@@ -1256,3 +1256,7 @@ body[data-screen="inbox"] .screen{padding:0;min-height:calc(100vh - 78px)}
 .launch-beta { display:flex; align-items:center; gap:12px; margin:0 0 26px; flex-wrap:wrap; }
 .launch-beta span { padding:6px 10px; border:1px solid rgba(94,224,181,.35); border-radius:999px; background:rgba(94,224,181,.10); color:var(--mint); font-size:10.5px; font-weight:800; letter-spacing:.12em; }
 .launch-beta small { color:var(--muted); font-size:12.5px; }
+
+/* Optional, non-blocking beta pricing research */
+.growth-offer{background:linear-gradient(135deg,#142b3e,#101c34);border:1px solid #3c817e;border-radius:18px;padding:22px;margin:20px 0;color:#e9f6f8}
+.growth-offer h3{margin:8px 0;font-size:1.3rem}.growth-offer p{line-height:1.65}.growth-actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.growth-note{color:#a8c9d4;font-size:.88rem}.growth-consent{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:#c3d3df}.growth-consent input{margin-top:4px;accent-color:#67dfc4}

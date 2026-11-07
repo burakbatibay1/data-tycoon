@@ -494,6 +494,7 @@ function completeCase(def) {
   const snap = snapshot(), pr = prog(def.id), treeBefore = nodePctMap(), evBefore = earnedSources();
   const steps = pr.log.length, indep = pr.log.filter(l => l.indep).length;
   const perfect = steps > 0 && indep === steps, bonus = perfect ? Math.round(def.xp * 0.2) : 0;
+  window.DTGrowth?.record('case_completed',{case:def.id,chapter:player.chapter,promotion:!!def.promotion});
   player.completed.push(def.id); window.DTSound?.one(def.promotion ? 'promotion' : 'success', def.promotion ? 'music' : 'sfx'); if (perfect) { player.firstTry.push(def.id); unlockAch("independent"); }
   if (pr.log.some(l => l.transfer && l.indep)) player.transferOK.push(def.id);
   const gains = applyRewards(def.rewards, def.xp + bonus);
